@@ -2,11 +2,9 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import { Avatar, Box, Breadcrumbs, Button, Typography } from "@mui/material";
-import { FC } from "react";
+import { Avatar, Box, Breadcrumbs, Typography } from "@mui/material";
+import { FC, ReactNode } from "react";
 import Link from "next/link";
-
-import DeleteIcon from "@mui/icons-material/Delete";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,7 +27,10 @@ const usersArray: User[] = [
   },
 ];
 
-const Home: FC<{ user: User }> = ({ user = usersArray[0] }) => {
+const MainLayout: FC<{ user: User; children: ReactNode }> = ({
+  user = usersArray[0],
+  children,
+}) => {
   return (
     <>
       <Head>
@@ -77,6 +78,7 @@ const Home: FC<{ user: User }> = ({ user = usersArray[0] }) => {
           </div>
         </div>
         {/* Breadcrumb */}
+        {/* TODO: handle */}
         <div
           style={{
             width: "100%",
@@ -99,43 +101,11 @@ const Home: FC<{ user: User }> = ({ user = usersArray[0] }) => {
             <Typography color="text.primary">Breadcrumbs</Typography>
           </Breadcrumbs>
         </div>
-        {/* Buttons */}
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            gap: 16,
-          }}
-        >
-          <Typography variant="h3">Bienvenid@, {user.nombre}</Typography>
-          <div style={{ display: "flex", gap: 120, marginTop: 140 }}>
-            <Button
-              style={{
-                padding: 64,
-              }}
-              variant="contained"
-              startIcon={<DeleteIcon />}
-            >
-              Delete
-            </Button>
-            <Button
-              style={{
-                padding: 64,
-              }}
-              variant="contained"
-              startIcon={<DeleteIcon />}
-            >
-              Delete
-            </Button>
-          </div>
-        </div>
+        {/* Children */}
+        <div>{children}</div>
       </main>
     </>
   );
 };
 
-export default Home;
+export default MainLayout;
