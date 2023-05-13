@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import { Avatar, Box, Breadcrumbs, Button, Typography } from "@mui/material";
+import { Avatar, Box, Breadcrumbs, Typography } from "@mui/material";
 import { FC, ReactNode } from "react";
 import Link from "next/link";
 
