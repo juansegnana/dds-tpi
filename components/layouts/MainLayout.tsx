@@ -6,28 +6,60 @@ import Link from "next/link";
 import { User } from "@/pages";
 import { useRouter } from "next/router";
 
+const BreadcrumbsComponent: FC<{
+  numberOfRoutes: number;
+  routesFormatted: string[];
+}> = ({ numberOfRoutes, routesFormatted }) => {
+  return (
+    <Breadcrumbs aria-label="breadcrumb">
+      {numberOfRoutes === 0 ? (
+        <Typography color="text.primary">Inicio</Typography>
+      ) : (
+        <Link color="inherit" href="/">
+          Inicio
+        </Link>
+      )}
+      {numberOfRoutes > 0 &&
+        routesFormatted.map((route, index) => {
+          const isLastPage = index === numberOfRoutes - 1;
+          const pathFormatted = `/${routesFormatted
+            .splice(0, index)
+            .join("/")}`;
+          const labelFormatted = `${route[0].toUpperCase()}${route
+            .split("")
+            .splice(1, route.length)
+            .join("")}`;
+
+          if (isLastPage) {
+            return (
+              <Typography color="text.primary" key={route}>
+                {labelFormatted}
+              </Typography>
+            );
+          }
+          return (
+            <Link
+              key={route}
+              color={"inherit"}
+              // TODO: chequear route!
+              href={pathFormatted}
+            >
+              {labelFormatted}
+            </Link>
+          );
+        })}
+    </Breadcrumbs>
+  );
+};
+
 const MainLayout: FC<{
   user?: User;
   children: ReactNode;
   variant?: "login";
 }> = ({ user, children, variant }) => {
   const router = useRouter();
-  console.log(router.asPath);
-
-  // TODO
-  const BreadcrumbsComponent = () => {
-    return (
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link color="inherit" href="/">
-          MUI
-        </Link>
-        <Link color="inherit" href="/material-ui/getting-started/installation/">
-          Core
-        </Link>
-        <Typography color="text.primary">Breadcrumbs</Typography>
-      </Breadcrumbs>
-    );
-  };
+  const routesFormatted = router.asPath.split("/").filter((x) => x);
+  const numberOfRoutes = routesFormatted.length;
 
   return (
     <>
@@ -78,7 +110,6 @@ const MainLayout: FC<{
           </div>
         </div>
         {/* Breadcrumb */}
-        {/* TODO: handle */}
         {variant !== "login" && (
           <div
             style={{
@@ -88,18 +119,10 @@ const MainLayout: FC<{
               backgroundColor: "white",
             }}
           >
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link color="inherit" href="/">
-                MUI
-              </Link>
-              <Link
-                color="inherit"
-                href="/material-ui/getting-started/installation/"
-              >
-                Core
-              </Link>
-              <Typography color="text.primary">Breadcrumbs</Typography>
-            </Breadcrumbs>
+            <BreadcrumbsComponent
+              numberOfRoutes={numberOfRoutes}
+              routesFormatted={routesFormatted}
+            />
           </div>
         )}
         {/* Children */}
