@@ -1,36 +1,32 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
 import { Avatar, Box, Breadcrumbs, Typography } from "@mui/material";
 import { FC, ReactNode } from "react";
 import Link from "next/link";
-
-const inter = Inter({ subsets: ["latin"] });
-
-export type Area =
-  | "compras"
-  | "produccion"
-  | "administracion"
-  | "ventas"
-  | "gerencial";
-
-interface User {
-  nombre: string;
-  area: Area;
-}
-
-const usersArray: User[] = [
-  {
-    area: "compras",
-    nombre: "Pepito",
-  },
-];
+import { User } from "@/pages";
+import { useRouter } from "next/router";
 
 const MainLayout: FC<{ user: User; children: ReactNode }> = ({
-  user = usersArray[0],
+  user,
   children,
 }) => {
+  const router = useRouter();
+  console.log(router.asPath);
+
+  const BreadcrumbsComponent = () => {
+    return (
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link color="inherit" href="/">
+          MUI
+        </Link>
+        <Link color="inherit" href="/material-ui/getting-started/installation/">
+          Core
+        </Link>
+        <Typography color="text.primary">Breadcrumbs</Typography>
+      </Breadcrumbs>
+    );
+  };
+
   return (
     <>
       <Head>
@@ -39,10 +35,10 @@ const MainLayout: FC<{ user: User; children: ReactNode }> = ({
       </Head>
       <main
         style={{ width: "100hw" }}
-        className={`${styles.main} ${inter.className}`}
+        // className={`${styles.main} ${inter.className}`}
       >
         {/* Header */}
-        <div style={{ width: "100%", backgroundColor: "grey" }}>
+        <div style={{ width: "100%", backgroundColor: "#1565c0" }}>
           <div
             style={{
               padding: 12,
@@ -73,7 +69,7 @@ const MainLayout: FC<{ user: User; children: ReactNode }> = ({
                 alt="Usuario"
                 src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png"
               />
-              <Typography>{user.nombre}</Typography>
+              <Typography color="white">{user.nombre}</Typography>
             </Box>
           </div>
         </div>
@@ -83,9 +79,8 @@ const MainLayout: FC<{ user: User; children: ReactNode }> = ({
           style={{
             width: "100%",
             padding: 8,
-            marginLeft: 32,
-            paddingLeft: 32,
-            backgroundColor: "#978206",
+            paddingLeft: 45,
+            backgroundColor: "white",
           }}
         >
           <Breadcrumbs aria-label="breadcrumb">
