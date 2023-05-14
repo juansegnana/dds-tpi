@@ -67,10 +67,7 @@ const MainLayout: FC<{
         <title>TPI</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main
-        style={{ width: "100hw" }}
-        // className={`${styles.main} ${inter.className}`}
-      >
+      <main style={{ width: "100hw" }}>
         {/* Header */}
         <div style={{ width: "100%", backgroundColor: "#1565c0" }}>
           <div
