@@ -6,13 +6,15 @@ import Link from "next/link";
 import { User } from "@/pages";
 import { useRouter } from "next/router";
 
-const MainLayout: FC<{ user: User; children: ReactNode }> = ({
-  user,
-  children,
-}) => {
+const MainLayout: FC<{
+  user?: User;
+  children: ReactNode;
+  variant?: "login";
+}> = ({ user, children, variant }) => {
   const router = useRouter();
   console.log(router.asPath);
 
+  // TODO
   const BreadcrumbsComponent = () => {
     return (
       <Breadcrumbs aria-label="breadcrumb">
@@ -57,45 +59,49 @@ const MainLayout: FC<{ user: User; children: ReactNode }> = ({
               />
               <Typography variant="h4">Gestión Reciplas</Typography>
             </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: 2,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Avatar
-                alt="Usuario"
-                src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png"
-              />
-              <Typography color="white">{user.nombre}</Typography>
-            </Box>
+            {user && (
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Avatar
+                  alt="Usuario"
+                  src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png"
+                />
+                <Typography color="white">{user.nombre}</Typography>
+              </Box>
+            )}
           </div>
         </div>
         {/* Breadcrumb */}
         {/* TODO: handle */}
-        <div
-          style={{
-            width: "100%",
-            padding: 8,
-            paddingLeft: 45,
-            backgroundColor: "white",
-          }}
-        >
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/">
-              MUI
-            </Link>
-            <Link
-              color="inherit"
-              href="/material-ui/getting-started/installation/"
-            >
-              Core
-            </Link>
-            <Typography color="text.primary">Breadcrumbs</Typography>
-          </Breadcrumbs>
-        </div>
+        {variant !== "login" && (
+          <div
+            style={{
+              width: "100%",
+              padding: 8,
+              paddingLeft: 45,
+              backgroundColor: "white",
+            }}
+          >
+            <Breadcrumbs aria-label="breadcrumb">
+              <Link color="inherit" href="/">
+                MUI
+              </Link>
+              <Link
+                color="inherit"
+                href="/material-ui/getting-started/installation/"
+              >
+                Core
+              </Link>
+              <Typography color="text.primary">Breadcrumbs</Typography>
+            </Breadcrumbs>
+          </div>
+        )}
         {/* Children */}
         <div>{children}</div>
       </main>
