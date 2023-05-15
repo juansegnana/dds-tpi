@@ -5,13 +5,32 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { ReactElement } from "react";
+import { FC, ReactElement } from "react";
 
 import { NextPageWithLayout } from "../_app";
 import { usersArray } from "..";
 import MainLayout from "../../../components/layouts/MainLayout";
 
-const ReportesContent = () => {
+interface SelectValue {
+  value: string;
+  label: string;
+}
+interface ReporteProps {
+  selectValues: SelectValue[];
+}
+
+const reportesValues: SelectValue[] = [
+  {
+    value: "cliente",
+    label: "Cliente",
+  },
+  {
+    value: "proveedor",
+    label: "Proveedor",
+  },
+];
+
+const ReportesContent: FC<ReporteProps> = ({ selectValues }) => {
   return (
     <div
       style={{
@@ -27,9 +46,12 @@ const ReportesContent = () => {
         padding: 16,
       }}
     >
-      <div className="div1">
-        {/* <FiltrosBusqueda /> */}
-        <Typography>Testing</Typography>
+      <div className="div1" style={{ border: "2px red solid" }}>
+        {/* MOVER A - <FiltrosBusqueda /> */}
+        <Typography>Work in progress</Typography>
+        <br />
+        {/* Select - Menú desplegable */}
+        {/* VER https://www.phind.com/search?cache=0cc131a3-11fc-4379-97d8-595488ba667b */}
         <FormControl fullWidth>
           <InputLabel id="select-label">Seleccionar</InputLabel>
           <Select
@@ -39,8 +61,11 @@ const ReportesContent = () => {
             label="Seleccionar"
             onChange={() => {}}
           >
-            <MenuItem value={"cliente"}>Cliente</MenuItem>
-            <MenuItem value={"proveedor"}>Proveedor</MenuItem>
+            {selectValues.map((selectObject) => (
+              <MenuItem key={selectObject.value} value={selectObject.value}>
+                {selectObject.label}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>
@@ -75,7 +100,7 @@ const ReportesHomePage: NextPageWithLayout<{}> = ({}) => {
           </Typography>
         </div>
         {/* Contenido */}
-        <ReportesContent />
+        <ReportesContent selectValues={reportesValues} />
       </div>
     </>
   );
