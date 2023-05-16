@@ -13,7 +13,7 @@ import { FC, ReactElement } from "react";
 import { NextPageWithLayout } from "../_app";
 import { usersArray } from "..";
 import MainLayout from "../../../components/layouts/MainLayout";
-import { Search } from "@mui/icons-material";
+import { Add, Feed, PlusOne, Search } from "@mui/icons-material";
 import TablaResultados from "../../../components/TablaResultados";
 
 interface SelectValue {
@@ -35,7 +35,7 @@ const reportesValues: SelectValue[] = [
   },
 ];
 
-const ReportesContent: FC<ReporteProps> = ({ selectValues }) => {
+const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
   return (
     <div
       style={{
@@ -62,23 +62,42 @@ const ReportesContent: FC<ReporteProps> = ({ selectValues }) => {
       >
         {/* Select - Menú desplegable */}
         {/* VER https://www.phind.com/search?cache=0cc131a3-11fc-4379-97d8-595488ba667b */}
-        <Box sx={{ padding: 2, border: "2px transparent solid" }}>
-          <FormControl fullWidth>
-            <InputLabel id="select-label">Seleccionar</InputLabel>
-            <Select
-              labelId="select-label"
-              id="simple-select"
-              value={"cliente"}
-              label="Seleccionar"
-              onChange={() => {}}
-            >
-              {selectValues.map((selectObject) => (
-                <MenuItem key={selectObject.value} value={selectObject.value}>
-                  {selectObject.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          flexDirection="column"
+          sx={{ height: "100%" }}
+        >
+          <Box sx={{ padding: 2, border: "2px transparent solid" }}>
+            <FormControl fullWidth>
+              <InputLabel id="select-label">Seleccionar</InputLabel>
+              <Select
+                labelId="select-label"
+                id="simple-select"
+                value={"cliente"}
+                label="Seleccionar"
+                onChange={() => {}}
+              >
+                {selectValues.map((selectObject) => (
+                  <MenuItem key={selectObject.value} value={selectObject.value}>
+                    {selectObject.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            sx={{ padding: 2 }}
+          >
+            <Button startIcon={<Feed />} variant="outlined">
+              Emitir informe
+            </Button>
+            <Button startIcon={<Add />} variant="contained">
+              Nuevo usuario
+            </Button>
+          </Box>
         </Box>
       </div>
       {/* Arriba */}
@@ -121,7 +140,7 @@ const ReportesContent: FC<ReporteProps> = ({ selectValues }) => {
   );
 };
 
-const ReportesHomePage: NextPageWithLayout<{}> = ({}) => {
+const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
   return (
     <>
       {/* Home Page */}
@@ -143,21 +162,25 @@ const ReportesHomePage: NextPageWithLayout<{}> = ({}) => {
             alignContent: "flex-start",
           }}
         >
-          <Typography variant="h3" color={"white"}>
+          <Typography
+            variant="h3"
+            color={"white"}
+            sx={{ textDecoration: "underline", fontWeight: "bold" }}
+          >
             Búsqueda
           </Typography>
         </div>
         {/* Contenido */}
         <Box>
-          <ReportesContent selectValues={reportesValues} />
+          <BusquedaContent selectValues={reportesValues} />
         </Box>
       </div>
     </>
   );
 };
 
-ReportesHomePage.getLayout = function getLayout(page: ReactElement) {
+UsuariosHomePage.getLayout = function getLayout(page: ReactElement) {
   return <MainLayout user={usersArray[0]}>{page}</MainLayout>;
 };
 
-export default ReportesHomePage;
+export default UsuariosHomePage;

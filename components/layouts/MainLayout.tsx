@@ -123,7 +123,7 @@ const MainLayout: FC<{
           </div>
         )}
         {/* Children */}
-        <div>{children}</div>
+        {children}
       </main>
     </>
   );
