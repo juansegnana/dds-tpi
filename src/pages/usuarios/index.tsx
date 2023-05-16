@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Drawer,
   FormControl,
   InputLabel,
   MenuItem,
@@ -97,6 +98,21 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
             <Button startIcon={<Add />} variant="contained">
               Nuevo usuario
             </Button>
+            <Drawer anchor={"right"} open={true} onClose={() => {}}>
+              <Box style={{ width: "450px", padding: 8 }}>
+                <Box sx={{ padding: 4 }}>
+                  <Typography
+                    variant="h4"
+                    sx={{ textAlign: "center", textDecoration: "underline" }}
+                  >
+                    Nuevo usuario
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography>Abril</Typography>
+                </Box>
+              </Box>
+            </Drawer>
           </Box>
         </Box>
       </div>
