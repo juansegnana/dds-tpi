@@ -108,9 +108,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
                     Nuevo usuario
                   </Typography>
                 </Box>
-                <Box>
-                  <Typography>Abril</Typography>
-                </Box>
+                <Box></Box>
               </Box>
             </Drawer>
           </Box>
