@@ -9,13 +9,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
 import { usersArray } from "..";
 import MainLayout from "../../../components/layouts/MainLayout";
-import { Add, Feed, PlusOne, Search } from "@mui/icons-material";
+import { Add, Cancel, Feed, PlusOne, Search } from "@mui/icons-material";
 import TablaResultados from "../../../components/TablaResultados";
+import Head from "next/head";
 
 interface SelectValue {
   value: string;
@@ -36,7 +37,110 @@ const reportesValues: SelectValue[] = [
   },
 ];
 
+const NuevoUsuarioDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({
+  isOpen,
+  onClose,
+}) => {
+  return (
+    <Drawer anchor={"right"} open={isOpen} onClose={onClose}>
+      <Box style={{ width: "450px", padding: 8 }}>
+        {/* <Box sx={{ padding: 4 }}>
+          <Typography
+            variant="h4"
+            sx={{ textAlign: "center", textDecoration: "underline" }}
+          >
+            Nuevo usuario
+          </Typography>
+        </Box> */}
+        <Box sx={{ height: "100%" }}>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="space-around"
+            sx={{
+              background: "rgba(161, 154, 158, 0.05)",
+              padding: 2,
+              margin: 2,
+              borderRadius: 4,
+              gap: 4,
+              height: "100%",
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={{
+                textAlign: "center",
+                textDecoration: "underline",
+              }}
+            >
+              Nuevo usuario
+            </Typography>
+            <Box
+              display="flex"
+              flexDirection="column"
+              sx={{ gap: 4, width: "100%" }}
+            >
+              <TextField
+                fullWidth
+                label="Nombre Completo"
+                id="test"
+                type="text"
+              />
+              <TextField fullWidth label="Dirección" id="test" type="text" />
+              <TextField
+                fullWidth
+                label="Fecha Nacimiento"
+                id="test"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+              />
+
+              <FormControl fullWidth>
+                <InputLabel id="select-label">Seleccionar</InputLabel>
+                <Select
+                  labelId="select-label"
+                  id="simple-select"
+                  value={"cliente"}
+                  label="Seleccionar"
+                  onChange={() => {}}
+                >
+                  <MenuItem value={"cliente"}>Cliente</MenuItem>
+                  <MenuItem value={"proveedor"}>Proveedor</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+
+            <Box
+              display="flex"
+              justifyContent="space-around"
+              sx={{ width: "100%" }}
+            >
+              <Button variant="contained" color="error" startIcon={<Cancel />}>
+                Cancelar
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ width: "40%" }}
+                startIcon={<Add />}
+              >
+                Crear
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Drawer>
+  );
+};
+
 const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleToggleDrawer = () => {
+    setIsDrawerOpen((prev) => !prev);
+  };
+
   return (
     <div
       style={{
@@ -55,6 +159,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
         boxShadow: "0px 0px 66px 44px rgba(0,0,0,0.1)",
       }}
     >
+      <NuevoUsuarioDrawer isOpen={isDrawerOpen} onClose={handleToggleDrawer} />
       {/* FILTROS */}
       {/* Lado izquierdo */}
       <div
@@ -95,22 +200,13 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
             <Button startIcon={<Feed />} variant="outlined">
               Emitir informe
             </Button>
-            <Button startIcon={<Add />} variant="contained">
+            <Button
+              startIcon={<Add />}
+              variant="contained"
+              onClick={handleToggleDrawer}
+            >
               Nuevo usuario
             </Button>
-            <Drawer anchor={"right"} open={true} onClose={() => {}}>
-              <Box style={{ width: "450px", padding: 8 }}>
-                <Box sx={{ padding: 4 }}>
-                  <Typography
-                    variant="h4"
-                    sx={{ textAlign: "center", textDecoration: "underline" }}
-                  >
-                    Nuevo usuario
-                  </Typography>
-                </Box>
-                <Box></Box>
-              </Box>
-            </Drawer>
           </Box>
         </Box>
       </div>
@@ -131,7 +227,12 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
           }}
           display={"flex"}
         >
-          <TextField fullWidth label="Ingrese algún campo" id="buscar-main" />
+          <TextField
+            fullWidth
+            label="Ingrese algún campo"
+            id="buscar-main"
+            type="search"
+          />
           <Button
             variant="contained"
             sx={{ width: "40%" }}
@@ -157,6 +258,9 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
 const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
   return (
     <>
+      <Head>
+        <title>Gestión de Usuarios</title>
+      </Head>
       {/* Home Page */}
       <div
         style={{
@@ -181,7 +285,7 @@ const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
             color={"white"}
             sx={{ textDecoration: "underline", fontWeight: "bold" }}
           >
-            Búsqueda
+            Gestión de Usuarios
           </Typography>
         </div>
         {/* Contenido */}
