@@ -14,8 +14,8 @@ import { FC, ReactElement, useState } from "react";
 import { NextPageWithLayout } from "../_app";
 import { usersArray } from "..";
 import MainLayout from "../../../components/layouts/MainLayout";
-import { Add, Cancel, Feed, PlusOne, Search } from "@mui/icons-material";
-import TablaResultados from "../../../components/TablaResultados";
+import { Add, Cancel, Edit, Feed, PlusOne, Search } from "@mui/icons-material";
+import TablaResultados, { UserRow } from "../../../components/TablaResultados";
 import Head from "next/head";
 
 interface SelectValue {
@@ -37,21 +37,14 @@ const reportesValues: SelectValue[] = [
   },
 ];
 
-const NuevoUsuarioDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({
-  isOpen,
-  onClose,
-}) => {
+const UsuarioDetailsDrawer: FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  userData?: UserRow;
+}> = ({ isOpen, onClose, userData }) => {
   return (
     <Drawer anchor={"right"} open={isOpen} onClose={onClose}>
       <Box style={{ width: "450px", padding: 8 }}>
-        {/* <Box sx={{ padding: 4 }}>
-          <Typography
-            variant="h4"
-            sx={{ textAlign: "center", textDecoration: "underline" }}
-          >
-            Nuevo usuario
-          </Typography>
-        </Box> */}
         <Box sx={{ height: "100%" }}>
           <Box
             display="flex"
@@ -74,7 +67,7 @@ const NuevoUsuarioDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({
                 textDecoration: "underline",
               }}
             >
-              Nuevo usuario
+              {`${userData ? "Editar" : "Nuevo"} usuario`}
             </Typography>
             <Box
               display="flex"
@@ -86,14 +79,23 @@ const NuevoUsuarioDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({
                 label="Nombre Completo"
                 id="test"
                 type="text"
+                value={userData?.nombre}
               />
-              <TextField fullWidth label="Dirección" id="test" type="text" />
+              <TextField
+                fullWidth
+                label="Dirección"
+                id="test"
+                type="text"
+                value={userData?.direccion}
+              />
               <TextField
                 fullWidth
                 label="Fecha Nacimiento"
                 id="test"
+                // TODO usar: https://reactdatepicker.com/
                 type="date"
                 InputLabelProps={{ shrink: true }}
+                value={userData?.fecha?.toISOString().split("T")[0]}
               />
 
               <FormControl fullWidth>
@@ -101,7 +103,7 @@ const NuevoUsuarioDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({
                 <Select
                   labelId="select-label"
                   id="simple-select"
-                  value={"cliente"}
+                  value={userData?.tipo || "cliente"}
                   label="Seleccionar"
                   onChange={() => {}}
                 >
@@ -122,9 +124,9 @@ const NuevoUsuarioDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({
               <Button
                 variant="contained"
                 sx={{ width: "40%" }}
-                startIcon={<Add />}
+                startIcon={userData ? <Edit /> : <Add />}
               >
-                Crear
+                `${userData ? "Editar" : "Crear"}`
               </Button>
             </Box>
           </Box>
@@ -136,8 +138,20 @@ const NuevoUsuarioDrawer: FC<{ isOpen: boolean; onClose: () => void }> = ({
 
 const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [drawerDetails, setDrawerDetails] = useState<UserRow | undefined>(
+    undefined
+  );
 
-  const handleToggleDrawer = () => {
+  const handleToggleDrawer = (userData?: UserRow) => {
+    console.log({ userData });
+    if (userData) {
+      setDrawerDetails({
+        ...userData,
+        tipo: userData.tipo.toLowerCase(),
+      });
+    } else {
+      setDrawerDetails(undefined);
+    }
     setIsDrawerOpen((prev) => !prev);
   };
 
@@ -159,7 +173,11 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
         boxShadow: "0px 0px 66px 44px rgba(0,0,0,0.1)",
       }}
     >
-      <NuevoUsuarioDrawer isOpen={isDrawerOpen} onClose={handleToggleDrawer} />
+      <UsuarioDetailsDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => handleToggleDrawer()}
+        userData={drawerDetails}
+      />
       {/* FILTROS */}
       {/* Lado izquierdo */}
       <div
@@ -203,7 +221,9 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
             <Button
               startIcon={<Add />}
               variant="contained"
-              onClick={handleToggleDrawer}
+              onClick={() => {
+                handleToggleDrawer();
+              }}
             >
               Nuevo usuario
             </Button>
@@ -248,7 +268,9 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
         style={{ border: "2px transparent solid", gridArea: "2 / 2 / 4 / 4" }}
       >
         <Box sx={{ padding: 2 }}>
-          <TablaResultados />
+          <TablaResultados
+            openDrawerDetails={(details) => handleToggleDrawer(details)}
+          />
         </Box>
       </div>
     </div>
