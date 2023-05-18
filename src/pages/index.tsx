@@ -1,14 +1,11 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
-import { Avatar, Box, Breadcrumbs, Button, Typography } from "@mui/material";
-import { FC } from "react";
-import Link from "next/link";
+import { ReactElement, useMemo } from "react";
+import { NextPageWithLayout } from "./_app";
 
-import DeleteIcon from "@mui/icons-material/Delete";
+import MainLayout from "../../components/layouts/MainLayout";
+import ButtonMain from "../../components/ButtonMain";
 
-const inter = Inter({ subsets: ["latin"] });
+import { Typography } from "@mui/material";
+import { Info } from "@mui/icons-material";
 
 export type Area =
   | "compras"
@@ -17,125 +14,94 @@ export type Area =
   | "ventas"
   | "gerencial";
 
-interface User {
+export interface User {
   nombre: string;
   area: Area;
 }
 
-const usersArray: User[] = [
+export const usersArray: User[] = [
   {
-    area: "compras",
-    nombre: "Pepito",
+    area: "administracion",
+    nombre: "Juan",
   },
 ];
 
-const Home: FC<{ user: User }> = ({ user = usersArray[0] }) => {
+interface AreaButton {
+  roleNeeded: Area[];
+  // Texto en el botón
+  label: string;
+  // Color
+  color?: string;
+  href: string;
+}
+
+const mainPageButtonsArr: AreaButton[] = [
+  {
+    label: "Reportes",
+    roleNeeded: ["administracion", "ventas"],
+    href: "/reportes",
+  },
+  {
+    label: "Gestión de Usuarios",
+    roleNeeded: ["administracion"],
+    href: "/usuarios",
+  },
+  {
+    label: "Registrar producto",
+    roleNeeded: ["administracion"],
+    href: "/producto/new",
+  },
+];
+
+const Home: NextPageWithLayout<{
+  user: User;
+  mainPageButtons: AreaButton[];
+}> = ({ user = usersArray[0], mainPageButtons = mainPageButtonsArr }) => {
+  const buttonsForUser = useMemo(() => {
+    const array = mainPageButtons.filter((button) =>
+      button.roleNeeded.includes(user.area)
+    );
+    return array;
+  }, [mainPageButtons, user.area]);
+
   return (
     <>
-      <Head>
-        <title>TPI</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main
-        style={{ width: "100hw" }}
-        className={`${styles.main} ${inter.className}`}
+      {/* Buttons */}
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: 16,
+          marginTop: 16,
+        }}
       >
-        {/* Header */}
-        <div style={{ width: "100%", backgroundColor: "grey" }}>
-          <div
-            style={{
-              padding: 12,
-              marginLeft: 32,
-              marginRight: 32,
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <Box sx={{ display: "flex", alignContent: "center" }}>
-              <Image
-                src={"/recycle-bin.png"}
-                alt="icon"
-                width={46}
-                height={46}
+        <Typography variant="h3" color={"white"}>
+          Hola, {user.nombre}
+        </Typography>
+        <div style={{ display: "flex", gap: 120, marginTop: 140 }}>
+          {buttonsForUser.map((button) => {
+            const { label, href } = button;
+            return (
+              <ButtonMain
+                icon={<Info />}
+                label={label}
+                key={label}
+                href={href}
               />
-              <Typography variant="h4">Gestión Reciplas</Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: 2,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Avatar
-                alt="Usuario"
-                src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png"
-              />
-              <Typography>{user.nombre}</Typography>
-            </Box>
-          </div>
+            );
+          })}
         </div>
-        {/* Breadcrumb */}
-        <div
-          style={{
-            width: "100%",
-            padding: 8,
-            marginLeft: 32,
-            paddingLeft: 32,
-            backgroundColor: "#978206",
-          }}
-        >
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/">
-              MUI
-            </Link>
-            <Link
-              color="inherit"
-              href="/material-ui/getting-started/installation/"
-            >
-              Core
-            </Link>
-            <Typography color="text.primary">Breadcrumbs</Typography>
-          </Breadcrumbs>
-        </div>
-        {/* Buttons */}
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            gap: 16,
-          }}
-        >
-          <Typography variant="h3">Bienvenid@, {user.nombre}</Typography>
-          <div style={{ display: "flex", gap: 120, marginTop: 140 }}>
-            <Button
-              style={{
-                padding: 64,
-              }}
-              variant="contained"
-              startIcon={<DeleteIcon />}
-            >
-              Delete
-            </Button>
-            <Button
-              style={{
-                padding: 64,
-              }}
-              variant="contained"
-              startIcon={<DeleteIcon />}
-            >
-              Delete
-            </Button>
-          </div>
-        </div>
-      </main>
+      </div>
     </>
   );
+};
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return <MainLayout user={usersArray[0]}>{page}</MainLayout>;
 };
 
 export default Home;
