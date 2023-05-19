@@ -14,9 +14,12 @@ import { FC, ReactElement, useState } from "react";
 import { NextPageWithLayout } from "../_app";
 import { usersArray } from "..";
 import MainLayout from "../../../components/layouts/MainLayout";
-import { Add, Cancel, Edit, Feed, PlusOne, Search } from "@mui/icons-material";
+import { Add, Cancel, Edit, Feed, Search } from "@mui/icons-material";
 import TablaResultados, { UserRow } from "../../../components/TablaResultados";
 import Head from "next/head";
+// For time picker
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 interface SelectValue {
   value: string;
@@ -42,6 +45,8 @@ const UsuarioDetailsDrawer: FC<{
   onClose: () => void;
   userData?: UserRow;
 }> = ({ isOpen, onClose, userData }) => {
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+
   return (
     <Drawer anchor={"right"} open={isOpen} onClose={onClose}>
       <Box style={{ width: "450px", padding: 8 }}>
@@ -88,7 +93,7 @@ const UsuarioDetailsDrawer: FC<{
                 type="text"
                 value={userData?.direccion}
               />
-              <TextField
+              {/* <TextField
                 fullWidth
                 label="Fecha Nacimiento"
                 id="test"
@@ -96,6 +101,20 @@ const UsuarioDetailsDrawer: FC<{
                 type="date"
                 InputLabelProps={{ shrink: true }}
                 value={userData?.fecha?.toISOString().split("T")[0]}
+              /> */}
+              <DatePicker
+                label="Fecha Nacimiento"
+                value={
+                  userData
+                    ? dayjs(userData.fecha?.toISOString().split("T")[0])
+                    : undefined
+                }
+                slotProps={{
+                  textField: {
+                    helperText: "El formato debe ser DD/MM/YYYY",
+                  },
+                }}
+                // views={["day", "month", "year"]}
               />
 
               <FormControl fullWidth>
@@ -118,7 +137,12 @@ const UsuarioDetailsDrawer: FC<{
               justifyContent="space-around"
               sx={{ width: "100%" }}
             >
-              <Button variant="contained" color="error" startIcon={<Cancel />}>
+              <Button
+                variant="contained"
+                color="error"
+                startIcon={<Cancel />}
+                onClick={onClose}
+              >
                 Cancelar
               </Button>
               <Button
@@ -126,7 +150,7 @@ const UsuarioDetailsDrawer: FC<{
                 sx={{ width: "40%" }}
                 startIcon={userData ? <Edit /> : <Add />}
               >
-                `${userData ? "Editar" : "Crear"}`
+                {userData ? "Editar" : "Crear"}
               </Button>
             </Box>
           </Box>
@@ -143,7 +167,6 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
   );
 
   const handleToggleDrawer = (userData?: UserRow) => {
-    console.log({ userData });
     if (userData) {
       setDrawerDetails({
         ...userData,
@@ -185,7 +208,6 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
         style={{ border: "2px transparent solid", gridArea: "1 / 1 / 4 / 2" }}
       >
         {/* Select - Menú desplegable */}
-        {/* VER https://www.phind.com/search?cache=0cc131a3-11fc-4379-97d8-595488ba667b */}
         <Box
           display="flex"
           justifyContent="space-between"
