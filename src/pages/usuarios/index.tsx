@@ -13,9 +13,9 @@ import { FC, ReactElement, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
 import { usersArray } from "..";
-import MainLayout from "../../../components/layouts/MainLayout";
+import MainLayout from "../../components/layouts/MainLayout";
 import { Add, Cancel, Edit, Feed, Search } from "@mui/icons-material";
-import TablaResultados, { UserRow } from "../../../components/TablaResultados";
+import TablaResultados, { UserRow } from "../../components/TablaResultados";
 import Head from "next/head";
 // For time picker
 import { DatePicker } from "@mui/x-date-pickers";
@@ -105,6 +105,7 @@ const UsuarioDetailsDrawer: FC<{
                     helperText: "El formato debe ser DD/MM/YYYY",
                   },
                 }}
+                views={["day", "month", "year"]}
               />
 
               <FormControl fullWidth>

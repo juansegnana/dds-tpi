@@ -1,8 +1,8 @@
 import { ReactElement, useMemo } from "react";
 import { NextPageWithLayout } from "./_app";
 
-import MainLayout from "../../components/layouts/MainLayout";
-import ButtonMain from "../../components/ButtonMain";
+import MainLayout from "../components/layouts/MainLayout";
+import ButtonMain from "../components/ButtonMain";
 
 import { Typography } from "@mui/material";
 import { Info } from "@mui/icons-material";
