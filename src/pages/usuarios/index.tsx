@@ -93,15 +93,6 @@ const UsuarioDetailsDrawer: FC<{
                 type="text"
                 value={userData?.direccion}
               />
-              {/* <TextField
-                fullWidth
-                label="Fecha Nacimiento"
-                id="test"
-                // TODO usar: https://reactdatepicker.com/
-                type="date"
-                InputLabelProps={{ shrink: true }}
-                value={userData?.fecha?.toISOString().split("T")[0]}
-              /> */}
               <DatePicker
                 label="Fecha Nacimiento"
                 value={
@@ -114,7 +105,6 @@ const UsuarioDetailsDrawer: FC<{
                     helperText: "El formato debe ser DD/MM/YYYY",
                   },
                 }}
-                // views={["day", "month", "year"]}
               />
 
               <FormControl fullWidth>
