@@ -14,6 +14,14 @@ export type Area =
   | "ventas"
   | "gerencial";
 
+export enum AreaEnum {
+  Compras = "compras",
+  Produccion = "produccion",
+  Administracion = "administracion",
+  Ventas = "ventas",
+  Gerencial = "gerencial",
+}
+
 export interface User {
   nombre: string;
   area: Area;
@@ -37,9 +45,14 @@ interface AreaButton {
 
 const mainPageButtonsArr: AreaButton[] = [
   {
-    label: "Reportes",
+    label: "Gestión de Clientes/Proveedores",
     roleNeeded: ["administracion", "ventas"],
-    href: "/reportes",
+    href: "/clientes",
+  },
+  {
+    label: "Reportes de Compras y Ventas",
+    roleNeeded: ["administracion"],
+    href: "/compras",
   },
   {
     label: "Gestión de Usuarios",
@@ -82,7 +95,16 @@ const Home: NextPageWithLayout<{
         <Typography variant="h3" color={"white"}>
           Hola, {user.nombre}
         </Typography>
-        <div style={{ display: "flex", gap: 120, marginTop: 140 }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 120,
+            marginTop: 140,
+            maxWidth: "60%",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
           {buttonsForUser.map((button) => {
             const { label, href } = button;
             return (

@@ -12,18 +12,16 @@ import {
 import { FC, ReactElement, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-import { AreaEnum, usersArray } from "..";
+import { usersArray } from "..";
 import MainLayout from "../../components/layouts/MainLayout";
-import { Add, Delete, Download, Edit, Search } from "@mui/icons-material";
-
+import { Download, Feed, Search } from "@mui/icons-material";
+// import TablaResultados, { UserRow } from "../../components/TablaResultados";
 import Head from "next/head";
 // For time picker
 import { DatePicker } from "@mui/x-date-pickers";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import dayjs from "dayjs";
-import TablaReportesUsuarios, {
-  UsuariosSistemaRow,
-} from "@/components/TablaReportesUsuarios";
+import TablaReportes, { CompraVentaRow } from "@/components/TablaReportes";
 
 interface SelectValue {
   value: string;
@@ -33,34 +31,27 @@ interface ReporteProps {
   selectValues: SelectValue[];
 }
 
-const tiposDeUsuario: SelectValue[] = [
+const reportesValues: SelectValue[] = [
   {
-    value: AreaEnum.Compras,
-    label: AreaEnum.Compras,
+    value: "ventas",
+    label: "Ventas",
   },
   {
-    value: AreaEnum.Produccion,
-    label: AreaEnum.Produccion,
-  },
-  {
-    value: AreaEnum.Administracion,
-    label: AreaEnum.Administracion,
-  },
-  {
-    value: AreaEnum.Ventas,
-    label: AreaEnum.Ventas,
-  },
-  {
-    value: AreaEnum.Gerencial,
-    label: AreaEnum.Gerencial,
+    value: "compras",
+    label: "Compras",
   },
 ];
 
-const UsuarioDetailsDrawer: FC<{
+enum Reportes {
+  VENTAS = "ventas",
+  COMPRAS = "compras",
+}
+
+const OrdenDetailsDrawer: FC<{
   isOpen: boolean;
   onClose: () => void;
-  userData?: UsuariosSistemaRow;
-}> = ({ isOpen, onClose, userData }) => {
+  ordenData?: CompraVentaRow;
+}> = ({ isOpen, onClose, ordenData }) => {
   return (
     <Drawer anchor={"right"} open={isOpen} onClose={onClose}>
       <Box style={{ width: "450px", padding: 8 }}>
@@ -80,11 +71,6 @@ const UsuarioDetailsDrawer: FC<{
             }}
           >
             <Box display="flex" sx={{ gap: 4, alignItems: "center" }}>
-              {/* <Button> */}
-              <Button onClick={onClose} sx={{ marginLeft: -10 }}>
-                <KeyboardBackspaceIcon />
-              </Button>
-              {/* </Button> */}
               <Typography
                 variant="h4"
                 sx={{
@@ -92,7 +78,7 @@ const UsuarioDetailsDrawer: FC<{
                   textDecoration: "underline",
                 }}
               >
-                {`${userData ? "Detalle" : "Nuevo"} usuario`}
+                {`Detalle de la ${ordenData?.tipo}`}
               </Typography>
             </Box>
             <Box
@@ -100,68 +86,41 @@ const UsuarioDetailsDrawer: FC<{
               flexDirection="column"
               sx={{ gap: 4, width: "100%" }}
             >
-              <Box display="flex" sx={{ gap: 2 }}>
-                <TextField
-                  fullWidth
-                  label="Nombre"
-                  id="test"
-                  type="text"
-                  value={userData?.nombre}
-                  disabled={!!userData}
-                />
-                <TextField
-                  fullWidth
-                  label="Apellido"
-                  id="test"
-                  type="text"
-                  value={userData?.nombre}
-                  disabled={!!userData}
-                />
-              </Box>
               <TextField
                 fullWidth
-                label="DNI"
+                label="Nombre Producto"
                 id="test"
-                type="number"
-                value={userData?.dni}
-                disabled={!!userData}
+                type="text"
+                value={ordenData?.nombreProducto}
+                disabled
               />
-
               <FormControl fullWidth>
-                <InputLabel id="select-label">Seleccionar sector</InputLabel>
+                <InputLabel id="select-label">Tipo</InputLabel>
                 <Select
                   labelId="select-label"
                   id="simple-select"
-                  value={userData?.sector || AreaEnum.Compras}
-                  label="Seleccionar sector"
+                  value={ordenData?.tipo || "cliente"}
+                  label="Tipo"
                   onChange={() => {}}
-                  disabled={!!userData}
+                  disabled
                 >
-                  {tiposDeUsuario.map((selectObject) => (
-                    <MenuItem
-                      key={selectObject.value}
-                      value={selectObject.value}
-                    >
-                      {selectObject.label}
-                    </MenuItem>
-                  ))}
+                  <MenuItem value={"venta"}>Venta</MenuItem>
+                  <MenuItem value={"compra"}>Compra</MenuItem>
                 </Select>
               </FormControl>
-
               <TextField
                 fullWidth
-                label="Email"
+                label={`Nombre del Comprador`}
                 id="test"
-                type="email"
-                value={userData?.email}
-                disabled={!!userData}
+                type="text"
+                value={ordenData?.nombrePoC}
+                disabled
               />
-
               <DatePicker
-                label="Fecha Nacimiento"
+                label="Fecha de la orden"
                 value={
-                  userData
-                    ? dayjs(userData.fecha?.toISOString().split("T")[0])
+                  ordenData
+                    ? dayjs(ordenData.fecha?.toISOString().split("T")[0])
                     : undefined
                 }
                 slotProps={{
@@ -170,47 +129,31 @@ const UsuarioDetailsDrawer: FC<{
                   },
                 }}
                 views={["day", "month", "year"]}
-                disabled={!!userData}
+                disabled
               />
-
-              <Box display="flex" sx={{ gap: 2 }}>
-                <TextField
-                  fullWidth
-                  label="Dirección"
-                  id="test"
-                  type="text"
-                  value={userData?.direccion}
-                  disabled={!!userData}
-                />
-                <TextField
-                  fullWidth
-                  label="Código Postal"
-                  id="test"
-                  type="number"
-                  value={userData?.codigoPostal}
-                  onInput={(e) => {
-                    // @ts-ignore
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 4);
-                  }}
-                  disabled={!!userData}
-                />
-              </Box>
-
               <TextField
                 fullWidth
-                label="Teléfono"
+                label={`Precio unitario`}
                 id="test"
                 type="number"
-                value={userData?.telefono}
-                disabled={!!userData}
-                onInput={(e) => {
-                  // @ts-ignore
-                  e.target.value = Math.max(0, parseInt(e.target.value))
-                    .toString()
-                    .slice(0, 10);
-                }}
+                value={ordenData?.precioUnitario}
+                disabled
+              />
+              <TextField
+                fullWidth
+                label="Cantidad"
+                id="test"
+                type="number"
+                value={ordenData?.cantidades}
+                disabled
+              />
+              <TextField
+                fullWidth
+                label={`Precio Total`}
+                id="test"
+                type="number"
+                value={ordenData?.precioTotal}
+                disabled
               />
             </Box>
 
@@ -219,30 +162,13 @@ const UsuarioDetailsDrawer: FC<{
               justifyContent="space-around"
               sx={{ width: "100%" }}
             >
-              {userData && (
-                <Button
-                  variant="contained"
-                  color="error"
-                  startIcon={<Delete />}
-                  onClick={() => {
-                    if (!confirm("¿Desea borrar el usuario?")) return;
-                    onClose();
-                  }}
-                >
-                  Borrar
-                </Button>
-              )}
               <Button
                 variant="contained"
                 sx={{ width: "40%" }}
-                startIcon={userData ? <Edit /> : <Add />}
-                onClick={() => {
-                  if (!userData) {
-                    alert("Usuario creado con éxito");
-                  }
-                }}
+                startIcon={<KeyboardBackspaceIcon />}
+                onClick={onClose}
               >
-                {userData ? "Editar" : "Crear"}
+                Volver
               </Button>
             </Box>
           </Box>
@@ -300,13 +226,12 @@ const CrearReporteDrawer: FC<{
                 <Select
                   labelId="select-label"
                   id="simple-select"
-                  value={"cliente"}
+                  value={"ventas"}
                   label="Seleccionar"
                   onChange={() => {}}
                 >
-                  <MenuItem value={"cliente"}>Cliente</MenuItem>
-                  <MenuItem value={"proveedor"}>Proveedor</MenuItem>
-                  <MenuItem value={"deudores"}>Deudores</MenuItem>
+                  <MenuItem value={"ventas"}>Ventas</MenuItem>
+                  <MenuItem value={"compras"}>Compras</MenuItem>
                 </Select>
               </FormControl>
               <Typography textAlign="center" variant="h4">
@@ -359,14 +284,14 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isReporteDrawerOpen, setIsReporteDrawerOpen] = useState(false);
   const [drawerDetails, setDrawerDetails] = useState<
-    UsuariosSistemaRow | undefined
+    CompraVentaRow | undefined
   >(undefined);
 
-  const handleToggleDrawer = (userData?: UsuariosSistemaRow) => {
+  const handleToggleDrawer = (userData?: CompraVentaRow) => {
     if (userData) {
       setDrawerDetails({
         ...userData,
-        // tipo: (userData.tipo as any).toLowerCase(),
+        tipo: (userData.tipo as any).toLowerCase(),
       });
     } else {
       setDrawerDetails(undefined);
@@ -396,10 +321,10 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
         boxShadow: "0px 0px 66px 44px rgba(0,0,0,0.1)",
       }}
     >
-      <UsuarioDetailsDrawer
+      <OrdenDetailsDrawer
         isOpen={isDrawerOpen}
         onClose={() => handleToggleDrawer()}
-        userData={drawerDetails}
+        ordenData={drawerDetails}
       />
       <CrearReporteDrawer
         isOpen={isReporteDrawerOpen}
@@ -424,7 +349,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
               <Select
                 labelId="select-label"
                 id="simple-select"
-                value={AreaEnum.Compras}
+                value={Reportes.VENTAS}
                 label="Seleccionar"
                 onChange={() => {}}
               >
@@ -442,13 +367,13 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
             sx={{ padding: 2 }}
           >
             <Button
-              startIcon={<Add />}
-              variant="contained"
+              startIcon={<Feed />}
+              variant="outlined"
               onClick={() => {
-                handleToggleDrawer();
+                handleToggleDrawerInforme();
               }}
             >
-              Nuevo usuario
+              Emitir reporte
             </Button>
           </Box>
         </Box>
@@ -491,7 +416,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
         style={{ border: "2px transparent solid", gridArea: "2 / 2 / 4 / 4" }}
       >
         <Box sx={{ padding: 2 }}>
-          <TablaReportesUsuarios
+          <TablaReportes
             openDrawerDetails={(details) => handleToggleDrawer(details)}
           />
         </Box>
@@ -504,7 +429,7 @@ const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
   return (
     <>
       <Head>
-        <title>Gestión de Usuarios del Sistema</title>
+        <title>Gestión de Clientes y Proveedores</title>
       </Head>
       {/* Home Page */}
       <div
@@ -530,12 +455,12 @@ const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
             color={"white"}
             sx={{ textDecoration: "underline", fontWeight: "bold" }}
           >
-            Gestión de Usuarios del Sistema
+            Reportes de Compra y Ventas
           </Typography>
         </div>
         {/* Contenido */}
         <Box>
-          <BusquedaContent selectValues={tiposDeUsuario} />
+          <BusquedaContent selectValues={reportesValues} />
         </Box>
       </div>
     </>

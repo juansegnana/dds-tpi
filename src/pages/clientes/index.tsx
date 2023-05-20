@@ -12,18 +12,15 @@ import {
 import { FC, ReactElement, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-import { AreaEnum, usersArray } from "..";
+import { usersArray } from "..";
 import MainLayout from "../../components/layouts/MainLayout";
-import { Add, Delete, Download, Edit, Search } from "@mui/icons-material";
-
+import { Add, Delete, Download, Edit, Feed, Search } from "@mui/icons-material";
+import TablaResultados, { UserRow } from "../../components/TablaResultados";
 import Head from "next/head";
 // For time picker
 import { DatePicker } from "@mui/x-date-pickers";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import dayjs from "dayjs";
-import TablaReportesUsuarios, {
-  UsuariosSistemaRow,
-} from "@/components/TablaReportesUsuarios";
 
 interface SelectValue {
   value: string;
@@ -33,33 +30,21 @@ interface ReporteProps {
   selectValues: SelectValue[];
 }
 
-const tiposDeUsuario: SelectValue[] = [
+const reportesValues: SelectValue[] = [
   {
-    value: AreaEnum.Compras,
-    label: AreaEnum.Compras,
+    value: "ventas",
+    label: "Ventas",
   },
   {
-    value: AreaEnum.Produccion,
-    label: AreaEnum.Produccion,
-  },
-  {
-    value: AreaEnum.Administracion,
-    label: AreaEnum.Administracion,
-  },
-  {
-    value: AreaEnum.Ventas,
-    label: AreaEnum.Ventas,
-  },
-  {
-    value: AreaEnum.Gerencial,
-    label: AreaEnum.Gerencial,
+    value: "compras",
+    label: "Compras",
   },
 ];
 
 const UsuarioDetailsDrawer: FC<{
   isOpen: boolean;
   onClose: () => void;
-  userData?: UsuariosSistemaRow;
+  userData?: UserRow;
 }> = ({ isOpen, onClose, userData }) => {
   return (
     <Drawer anchor={"right"} open={isOpen} onClose={onClose}>
@@ -92,7 +77,7 @@ const UsuarioDetailsDrawer: FC<{
                   textDecoration: "underline",
                 }}
               >
-                {`${userData ? "Detalle" : "Nuevo"} usuario`}
+                {`${userData ? "Editar" : "Nuevo"} Cli/Prov`}
               </Typography>
             </Box>
             <Box
@@ -100,63 +85,20 @@ const UsuarioDetailsDrawer: FC<{
               flexDirection="column"
               sx={{ gap: 4, width: "100%" }}
             >
-              <Box display="flex" sx={{ gap: 2 }}>
-                <TextField
-                  fullWidth
-                  label="Nombre"
-                  id="test"
-                  type="text"
-                  value={userData?.nombre}
-                  disabled={!!userData}
-                />
-                <TextField
-                  fullWidth
-                  label="Apellido"
-                  id="test"
-                  type="text"
-                  value={userData?.nombre}
-                  disabled={!!userData}
-                />
-              </Box>
               <TextField
                 fullWidth
-                label="DNI"
+                label="Nombre Completo"
                 id="test"
-                type="number"
-                value={userData?.dni}
-                disabled={!!userData}
+                type="text"
+                value={userData?.nombre}
               />
-
-              <FormControl fullWidth>
-                <InputLabel id="select-label">Seleccionar sector</InputLabel>
-                <Select
-                  labelId="select-label"
-                  id="simple-select"
-                  value={userData?.sector || AreaEnum.Compras}
-                  label="Seleccionar sector"
-                  onChange={() => {}}
-                  disabled={!!userData}
-                >
-                  {tiposDeUsuario.map((selectObject) => (
-                    <MenuItem
-                      key={selectObject.value}
-                      value={selectObject.value}
-                    >
-                      {selectObject.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
               <TextField
                 fullWidth
-                label="Email"
+                label="Dirección"
                 id="test"
-                type="email"
-                value={userData?.email}
-                disabled={!!userData}
+                type="text"
+                value={userData?.direccion}
               />
-
               <DatePicker
                 label="Fecha Nacimiento"
                 value={
@@ -170,48 +112,21 @@ const UsuarioDetailsDrawer: FC<{
                   },
                 }}
                 views={["day", "month", "year"]}
-                disabled={!!userData}
               />
 
-              <Box display="flex" sx={{ gap: 2 }}>
-                <TextField
-                  fullWidth
-                  label="Dirección"
-                  id="test"
-                  type="text"
-                  value={userData?.direccion}
-                  disabled={!!userData}
-                />
-                <TextField
-                  fullWidth
-                  label="Código Postal"
-                  id="test"
-                  type="number"
-                  value={userData?.codigoPostal}
-                  onInput={(e) => {
-                    // @ts-ignore
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 4);
-                  }}
-                  disabled={!!userData}
-                />
-              </Box>
-
-              <TextField
-                fullWidth
-                label="Teléfono"
-                id="test"
-                type="number"
-                value={userData?.telefono}
-                disabled={!!userData}
-                onInput={(e) => {
-                  // @ts-ignore
-                  e.target.value = Math.max(0, parseInt(e.target.value))
-                    .toString()
-                    .slice(0, 10);
-                }}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="select-label">Seleccionar</InputLabel>
+                <Select
+                  labelId="select-label"
+                  id="simple-select"
+                  value={userData?.tipo || "cliente"}
+                  label="Seleccionar"
+                  onChange={() => {}}
+                >
+                  <MenuItem value={"cliente"}>Cliente</MenuItem>
+                  <MenuItem value={"proveedor"}>Proveedor</MenuItem>
+                </Select>
+              </FormControl>
             </Box>
 
             <Box
@@ -219,28 +134,18 @@ const UsuarioDetailsDrawer: FC<{
               justifyContent="space-around"
               sx={{ width: "100%" }}
             >
-              {userData && (
-                <Button
-                  variant="contained"
-                  color="error"
-                  startIcon={<Delete />}
-                  onClick={() => {
-                    if (!confirm("¿Desea borrar el usuario?")) return;
-                    onClose();
-                  }}
-                >
-                  Borrar
-                </Button>
-              )}
+              <Button
+                variant="contained"
+                color="error"
+                startIcon={<Delete />}
+                onClick={onClose}
+              >
+                Borrar
+              </Button>
               <Button
                 variant="contained"
                 sx={{ width: "40%" }}
                 startIcon={userData ? <Edit /> : <Add />}
-                onClick={() => {
-                  if (!userData) {
-                    alert("Usuario creado con éxito");
-                  }
-                }}
               >
                 {userData ? "Editar" : "Crear"}
               </Button>
@@ -358,15 +263,15 @@ const CrearReporteDrawer: FC<{
 const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isReporteDrawerOpen, setIsReporteDrawerOpen] = useState(false);
-  const [drawerDetails, setDrawerDetails] = useState<
-    UsuariosSistemaRow | undefined
-  >(undefined);
+  const [drawerDetails, setDrawerDetails] = useState<UserRow | undefined>(
+    undefined
+  );
 
-  const handleToggleDrawer = (userData?: UsuariosSistemaRow) => {
+  const handleToggleDrawer = (userData?: UserRow) => {
     if (userData) {
       setDrawerDetails({
         ...userData,
-        // tipo: (userData.tipo as any).toLowerCase(),
+        tipo: userData.tipo.toLowerCase(),
       });
     } else {
       setDrawerDetails(undefined);
@@ -424,7 +329,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
               <Select
                 labelId="select-label"
                 id="simple-select"
-                value={AreaEnum.Compras}
+                value={"cliente"}
                 label="Seleccionar"
                 onChange={() => {}}
               >
@@ -442,13 +347,22 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
             sx={{ padding: 2 }}
           >
             <Button
+              startIcon={<Feed />}
+              variant="outlined"
+              onClick={() => {
+                handleToggleDrawerInforme();
+              }}
+            >
+              Emitir reporte
+            </Button>
+            <Button
               startIcon={<Add />}
               variant="contained"
               onClick={() => {
                 handleToggleDrawer();
               }}
             >
-              Nuevo usuario
+              Nuevo cli/prov
             </Button>
           </Box>
         </Box>
@@ -491,7 +405,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
         style={{ border: "2px transparent solid", gridArea: "2 / 2 / 4 / 4" }}
       >
         <Box sx={{ padding: 2 }}>
-          <TablaReportesUsuarios
+          <TablaResultados
             openDrawerDetails={(details) => handleToggleDrawer(details)}
           />
         </Box>
@@ -504,7 +418,7 @@ const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
   return (
     <>
       <Head>
-        <title>Gestión de Usuarios del Sistema</title>
+        <title>Gestión de Clientes y Proveedores</title>
       </Head>
       {/* Home Page */}
       <div
@@ -530,12 +444,12 @@ const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
             color={"white"}
             sx={{ textDecoration: "underline", fontWeight: "bold" }}
           >
-            Gestión de Usuarios del Sistema
+            Gestión de Clientes y Proveedores
           </Typography>
         </div>
         {/* Contenido */}
         <Box>
-          <BusquedaContent selectValues={tiposDeUsuario} />
+          <BusquedaContent selectValues={reportesValues} />
         </Box>
       </div>
     </>
