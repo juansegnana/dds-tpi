@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
-import MainLayout from "../../components/layouts/MainLayout";
-import LoginPage from "../../components/login/LoginForm";
+import MainLayout from "../components/layouts/MainLayout";
+import LoginPage from "../components/login/LoginForm";
 
 const Login = () => {
   return <LoginPage />;
