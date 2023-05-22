@@ -32,6 +32,18 @@ export const usersArray: User[] = [
     area: "administracion",
     nombre: "Juan",
   },
+  {
+    area: "compras",
+    nombre: "Pedro",
+  },
+  {
+    area: "produccion",
+    nombre: "Ramiro",
+  },
+  {
+    area: "ventas",
+    nombre: "María",
+  },
 ];
 
 interface AreaButton {
@@ -59,17 +71,35 @@ const mainPageButtonsArr: AreaButton[] = [
     roleNeeded: ["administracion"],
     href: "/usuarios",
   },
+  // TODO
   {
     label: "Registrar producto",
     roleNeeded: ["administracion"],
     href: "/producto/new",
+  },
+  // STOCK
+  {
+    label: "Reporte de Stock",
+    roleNeeded: ["administracion", "produccion", "ventas", "gerencial"],
+    href: "/stock",
+  },
+  {
+    label: "Gestión de Stock",
+    roleNeeded: ["compras"],
+    href: "/stock",
+  },
+  // PRODUCCIÓN
+  {
+    label: "Gestión de Pedidos",
+    roleNeeded: ["ventas", "produccion"],
+    href: "/pedidos",
   },
 ];
 
 const Home: NextPageWithLayout<{
   user: User;
   mainPageButtons: AreaButton[];
-}> = ({ user = usersArray[0], mainPageButtons = mainPageButtonsArr }) => {
+}> = ({ user = usersArray[1], mainPageButtons = mainPageButtonsArr }) => {
   const buttonsForUser = useMemo(() => {
     const array = mainPageButtons.filter((button) =>
       button.roleNeeded.includes(user.area)
@@ -123,7 +153,7 @@ const Home: NextPageWithLayout<{
 };
 
 Home.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout user={usersArray[0]}>{page}</MainLayout>;
+  return <MainLayout user={usersArray[1]}>{page}</MainLayout>;
 };
 
 export default Home;

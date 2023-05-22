@@ -12,7 +12,7 @@ import {
 import { FC, ReactElement, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-import { usersArray } from "..";
+import { User, usersArray } from "..";
 import MainLayout from "../../components/layouts/MainLayout";
 import { Add, Delete, Download, Edit, Feed, Search } from "@mui/icons-material";
 import TablaResultados, { UserRow } from "../../components/TablaResultados";
@@ -32,12 +32,12 @@ interface ReporteProps {
 
 const reportesValues: SelectValue[] = [
   {
-    value: "ventas",
-    label: "Ventas",
+    value: "empresa",
+    label: "Clientes Empresa",
   },
   {
-    value: "compras",
-    label: "Compras",
+    value: "particular",
+    label: "Clientes Particulares",
   },
 ];
 
@@ -65,11 +65,10 @@ const UsuarioDetailsDrawer: FC<{
             }}
           >
             <Box display="flex" sx={{ gap: 4, alignItems: "center" }}>
-              {/* <Button> */}
               <Button onClick={onClose} sx={{ marginLeft: -10 }}>
                 <KeyboardBackspaceIcon />
               </Button>
-              {/* </Button> */}
+              {/* TODO: NO VE EL ADMINISTRADOR */}
               <Typography
                 variant="h4"
                 sx={{
@@ -77,7 +76,7 @@ const UsuarioDetailsDrawer: FC<{
                   textDecoration: "underline",
                 }}
               >
-                {`${userData ? "Editar" : "Nuevo"} Cli/Prov`}
+                {`${userData ? "Editar" : "Nuevo"} Cliente`}
               </Typography>
             </Box>
             <Box
@@ -209,9 +208,10 @@ const CrearReporteDrawer: FC<{
                   label="Seleccionar"
                   onChange={() => {}}
                 >
-                  <MenuItem value={"cliente"}>Cliente</MenuItem>
-                  <MenuItem value={"proveedor"}>Proveedor</MenuItem>
-                  <MenuItem value={"deudores"}>Deudores</MenuItem>
+                  <MenuItem value={"cliente"}>Clientes Particulares</MenuItem>
+                  <MenuItem value={"empresa"}>Clientes Empresa</MenuItem>
+                  {/* TODO: HANDLE */}
+                  {/* <MenuItem value={"deudores"}>Deudores</MenuItem> */}
                 </Select>
               </FormControl>
               <Typography textAlign="center" variant="h4">
@@ -329,7 +329,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
               <Select
                 labelId="select-label"
                 id="simple-select"
-                value={"cliente"}
+                value={"empresa"}
                 label="Seleccionar"
                 onChange={() => {}}
               >
@@ -362,7 +362,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
                 handleToggleDrawer();
               }}
             >
-              Nuevo cli/prov
+              Nuevo cliente
             </Button>
           </Box>
         </Box>
@@ -414,11 +414,13 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
   );
 };
 
-const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
+const UsuariosHomePage: NextPageWithLayout<{ user: User }> = ({
+  user = usersArray[3],
+}) => {
   return (
     <>
       <Head>
-        <title>Gestión de Clientes y Proveedores</title>
+        <title>Gestión de Clientes</title>
       </Head>
       {/* Home Page */}
       <div
@@ -444,12 +446,24 @@ const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
             color={"white"}
             sx={{ textDecoration: "underline", fontWeight: "bold" }}
           >
-            Gestión de Clientes y Proveedores
+            Gestión de Clientes
           </Typography>
         </div>
         {/* Contenido */}
         <Box>
-          <BusquedaContent selectValues={reportesValues} />
+          <BusquedaContent
+            selectValues={
+              user.area === "administracion"
+                ? [
+                    ...reportesValues, // Administrador: no hacer reporte pero si ve deudor
+                    {
+                      value: "deudores",
+                      label: "Deudores",
+                    },
+                  ]
+                : reportesValues
+            }
+          />
         </Box>
       </div>
     </>
@@ -457,7 +471,7 @@ const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
 };
 
 UsuariosHomePage.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout user={usersArray[0]}>{page}</MainLayout>;
+  return <MainLayout user={usersArray[3]}>{page}</MainLayout>;
 };
 
 export default UsuariosHomePage;
