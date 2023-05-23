@@ -17,6 +17,7 @@ const tableInfo: TableInfo = {
     "fecha_cargada",
     "tipo_stock",
     "categoria",
+    "color",
   ],
   rows: [
     {
@@ -29,6 +30,19 @@ const tableInfo: TableInfo = {
       nombre_producto: "Plastico",
       categoria: "plastico",
       calidad: "buena",
+      color: "N/A",
+    },
+    {
+      id: 2,
+      type: "text",
+      cantidad: 50,
+      fecha_cargada: new Date(),
+      tipo_stock: "materia_prima",
+      nombre_proveedor: "Tintes S.A",
+      nombre_producto: "Tinte Blanco",
+      categoria: "tintes",
+      calidad: "N/A",
+      color: "Blanco",
     },
   ],
 };
@@ -53,10 +67,6 @@ const drawerInfo: DrawerInfo = {
           value: "materia_prima",
           label: "Materia Prima",
         },
-        // {
-        //   value: "producido",
-        //   label: "Producido",
-        // },
       ],
     },
     {
@@ -90,6 +100,29 @@ const drawerInfo: DrawerInfo = {
         {
           value: "mala",
           label: "Mala",
+        },
+        {
+          value: "N/A",
+          label: "N/A",
+        },
+      ],
+    },
+    {
+      type: "select",
+      inputId: "color",
+      label: "Color de Tinte",
+      selectValues: [
+        {
+          value: "Blanco",
+          label: "Blanco",
+        },
+        {
+          value: "Negro",
+          label: "Negro",
+        },
+        {
+          value: "N/A",
+          label: "N/A",
         },
       ],
     },
@@ -136,6 +169,21 @@ const selectValues: SelectValue[] = [
 
 const StockHomePage: NextPageWithLayout<{}> = ({}) => {
   const { user } = useContext(UserContext);
+
+  // user.role === 'compras' entonces no se muestra producido
+
+  // const selectForm = [];
+  // selectForm.push({
+  //   value: "materia_prima",
+  //   label: "Materia Prima",
+  // });
+
+  // if (user.area !== "compras") {
+  //   selectForm.push({
+  //     value: "producido",
+  //     label: "Producido",
+  //   });
+  // }
 
   return (
     <TableWithFilters

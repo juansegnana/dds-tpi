@@ -5,7 +5,9 @@ import { useContext, useState } from "react";
 
 const LoginPage = () => {
   const { setUser } = useContext(UserContext);
-  const [selectedUser, setSelectedUser] = useState<User | undefined>();
+  const [selectedUser, setSelectedUser] = useState<User | undefined>(
+    usersArray[0]
+  );
   const router = useRouter();
 
   const handleUser = () => {

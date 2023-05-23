@@ -39,7 +39,7 @@ export const usersArray: User[] = [
   },
   {
     area: "gerencial",
-    nombre: "Armando Paredes",
+    nombre: "Armando",
   },
 ];
 
