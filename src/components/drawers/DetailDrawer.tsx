@@ -34,6 +34,7 @@ export interface DrawerInfo {
   formValues: FormValue[];
   mainTitle: string;
   markValues?: SelectValue[];
+  shouldEnableEdit?: boolean;
 }
 
 /**
@@ -57,7 +58,13 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
   itemData,
   drawerInfo,
 }) => {
-  const { onCloseLabel, onCreateLabel, formValues, mainTitle } = drawerInfo;
+  const {
+    onCloseLabel,
+    onCreateLabel,
+    formValues,
+    mainTitle,
+    shouldEnableEdit = true,
+  } = drawerInfo;
 
   const getInputComponent = (formValue: FormValue) => {
     const {
@@ -151,7 +158,6 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
         </FormControl>
       );
     }
-
     // STRING or NUMBER or EMAIL
     return (
       <TextField
@@ -223,37 +229,39 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
               {/* </Box> */}
             </Box>
 
-            <Box
-              display="flex"
-              justifyContent="space-around"
-              sx={{ width: "100%" }}
-            >
-              {itemData && (
+            {shouldEnableEdit && (
+              <Box
+                display="flex"
+                justifyContent="space-around"
+                sx={{ width: "100%" }}
+              >
+                {itemData && (
+                  <Button
+                    variant="contained"
+                    color="error"
+                    startIcon={<Delete />}
+                    onClick={() => {
+                      if (!confirm(onCloseLabel)) return;
+                      onClose();
+                    }}
+                  >
+                    Borrar
+                  </Button>
+                )}
                 <Button
                   variant="contained"
-                  color="error"
-                  startIcon={<Delete />}
+                  sx={{ width: "40%" }}
+                  startIcon={itemData ? <Edit /> : <Add />}
                   onClick={() => {
-                    if (!confirm(onCloseLabel)) return;
-                    onClose();
+                    if (!itemData) {
+                      alert(onCreateLabel);
+                    }
                   }}
                 >
-                  Borrar
+                  {itemData ? "Editar" : "Crear"}
                 </Button>
-              )}
-              <Button
-                variant="contained"
-                sx={{ width: "40%" }}
-                startIcon={itemData ? <Edit /> : <Add />}
-                onClick={() => {
-                  if (!itemData) {
-                    alert(onCreateLabel);
-                  }
-                }}
-              >
-                {itemData ? "Editar" : "Crear"}
-              </Button>
-            </Box>
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>

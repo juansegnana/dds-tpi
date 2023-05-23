@@ -3,37 +3,38 @@ import TableWithFilters, {
   TableInfo,
 } from "@/components/TableWithFilters/TableWithFilters";
 import { NextPageWithLayout } from "../_app";
-import { ReactElement } from "react";
+import { ReactElement, useContext } from "react";
 import MainLayout from "@/components/layouts/MainLayout";
 import { User, usersArray } from "..";
 import { DrawerInfo } from "@/components/drawers/DetailDrawer";
+import UserContext from "@/contexts/UserContext";
 
 const tableInfo: TableInfo = {
   visibleColumns: [
     "id",
-    "nombre",
+    "nombre_producto",
     "cantidad",
     "fecha_cargada",
-    "tipo_de_producto",
+    "tipo_stock",
     "categoria",
   ],
   rows: [
     {
       id: 1,
       type: "text",
-      nombre: "Plástico",
       cantidad: 100,
       fecha_cargada: new Date(),
-      tipo_de_producto: "materia_prima",
+      tipo_stock: "materia_prima",
       nombre_proveedor: "Plastico S.A",
-      calidad: "alta",
+      nombre_producto: "Plastico",
       categoria: "plastico",
+      calidad: "buena",
     },
   ],
 };
 
 const drawerInfo: DrawerInfo = {
-  mainTitle: "Gestionar Producto",
+  mainTitle: "Gestionar Compra",
   onCloseLabel: "Desea borrar el item?",
   onCreateLabel: "Nuevo item cargado en el stock",
   formValues: [
@@ -119,6 +120,7 @@ const drawerInfo: DrawerInfo = {
       label: "Envases Plast.",
     },
   ],
+  // shouldEnableEdit
 };
 
 const selectValues: SelectValue[] = [
@@ -132,16 +134,19 @@ const selectValues: SelectValue[] = [
   },
 ];
 
-const StockHomePage: NextPageWithLayout<{ user: User }> = ({
-  user = usersArray[1],
-}) => {
+const StockHomePage: NextPageWithLayout<{}> = ({}) => {
+  const { user } = useContext(UserContext);
+
   return (
     <TableWithFilters
       pageTitle="Gestión de Stock"
       tableInfo={tableInfo}
-      drawerInfo={drawerInfo}
+      drawerInfo={{
+        ...drawerInfo,
+        shouldEnableEdit: user.area !== "administracion",
+      }}
       selectValues={selectValues}
-      newButtonLabel={user.area === "compras" ? "Nuevo Producto" : undefined}
+      newButtonLabel={user.area === "compras" ? "Nueva compra" : undefined}
       categories={[
         "Químicos",
         "Plásticos",
@@ -156,7 +161,7 @@ const StockHomePage: NextPageWithLayout<{ user: User }> = ({
 };
 
 StockHomePage.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout user={usersArray[1]}>{page}</MainLayout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export default StockHomePage;

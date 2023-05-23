@@ -5,11 +5,12 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 // Date picker
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/es";
+import UserContext, { User, usersArray } from "@/contexts/UserContext";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -25,7 +26,11 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return getLayout(
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
+      {/* <UserContext.Provider
+        value={{ user: currentUser, setUser: handleSetUser }}
+      > */}
       <Component {...pageProps} />
+      {/* </UserContext.Provider> */}
     </LocalizationProvider>
   );
 }

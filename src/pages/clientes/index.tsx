@@ -84,13 +84,22 @@ const UsuarioDetailsDrawer: FC<{
               flexDirection="column"
               sx={{ gap: 4, width: "100%" }}
             >
-              <TextField
-                fullWidth
-                label="Nombre Completo"
-                id="test"
-                type="text"
-                value={userData?.nombre}
-              />
+              <Box sx={{ display: "flex", gap: 2 }}>
+                <TextField
+                  fullWidth
+                  label="Nombre"
+                  id="test"
+                  type="text"
+                  value={userData?.nombre}
+                />
+                <TextField
+                  fullWidth
+                  label="Apellido"
+                  id="test"
+                  type="text"
+                  value={userData?.apellido}
+                />
+              </Box>
               <TextField
                 fullWidth
                 label="Dirección"
@@ -113,17 +122,27 @@ const UsuarioDetailsDrawer: FC<{
                 views={["day", "month", "year"]}
               />
 
+              <TextField
+                fullWidth
+                label="DNI/CUIT"
+                id="test"
+                type="text"
+                value={userData?.cuit}
+              />
+
               <FormControl fullWidth>
                 <InputLabel id="select-label">Seleccionar</InputLabel>
                 <Select
                   labelId="select-label"
                   id="simple-select"
-                  value={userData?.tipo || "cliente"}
+                  value={userData?.tipo || "cliente particular"}
                   label="Seleccionar"
                   onChange={() => {}}
                 >
-                  <MenuItem value={"cliente"}>Cliente</MenuItem>
-                  <MenuItem value={"proveedor"}>Proveedor</MenuItem>
+                  <MenuItem value={"cliente particular"}>
+                    Cliente Particular
+                  </MenuItem>
+                  <MenuItem value={"cliente empresa"}>Cliente Empresa</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -471,7 +490,7 @@ const UsuariosHomePage: NextPageWithLayout<{ user: User }> = ({
 };
 
 UsuariosHomePage.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout user={usersArray[3]}>{page}</MainLayout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export default UsuariosHomePage;

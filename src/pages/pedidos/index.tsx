@@ -135,7 +135,7 @@ const PedidosHomePage: NextPageWithLayout<{ user: User }> = ({
 };
 
 PedidosHomePage.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout user={usersArray[2]}>{page}</MainLayout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export default PedidosHomePage;

@@ -1,4 +1,4 @@
-import { ReactElement, useMemo } from "react";
+import { ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import { NextPageWithLayout } from "./_app";
 
 import MainLayout from "../components/layouts/MainLayout";
@@ -6,6 +6,9 @@ import ButtonMain from "../components/ButtonMain";
 
 import { Typography } from "@mui/material";
 import { Info } from "@mui/icons-material";
+import UserContext, { UserContextType } from "@/contexts/UserContext";
+import { useRouter } from "next/router";
+import DetailDrawer from "@/components/drawers/DetailDrawer";
 
 export type Area =
   | "compras"
@@ -75,7 +78,7 @@ const mainPageButtonsArr: AreaButton[] = [
   {
     label: "Registrar producto",
     roleNeeded: ["administracion"],
-    href: "/producto/new",
+    href: "/#nuevo_producto",
   },
   // STOCK
   {
@@ -97,15 +100,26 @@ const mainPageButtonsArr: AreaButton[] = [
 ];
 
 const Home: NextPageWithLayout<{
-  user: User;
   mainPageButtons: AreaButton[];
-}> = ({ user = usersArray[1], mainPageButtons = mainPageButtonsArr }) => {
+}> = ({ mainPageButtons = mainPageButtonsArr }) => {
+  const { user } = useContext(UserContext) as UserContextType;
+  console.log("homepage", user);
+
   const buttonsForUser = useMemo(() => {
     const array = mainPageButtons.filter((button) =>
       button.roleNeeded.includes(user.area)
     );
     return array;
   }, [mainPageButtons, user.area]);
+
+  const [isCreateProductOpen, setIsCreateProductOpen] = useState(false);
+  const router = useRouter();
+  // if `#nuevo_producto` is in the URL, open the modal
+  useEffect(() => {
+    if (router.asPath.includes("#nuevo_producto")) {
+      setIsCreateProductOpen(true);
+    }
+  }, [router.asPath]);
 
   return (
     <>
@@ -122,6 +136,46 @@ const Home: NextPageWithLayout<{
           marginTop: 16,
         }}
       >
+        <DetailDrawer
+          drawerInfo={{
+            onCreateLabel: "Nuevo producto creado",
+            formValues: [
+              {
+                type: "select",
+                label: "Tipo de producto",
+                inputId: "tipo",
+                selectValues: [
+                  {
+                    value: "materia prima",
+                    label: "Materia prima",
+                  },
+                  {
+                    value: "producto fabricado",
+                    label: "Producto Fabricado",
+                  },
+                ],
+              },
+              {
+                label: "Nombre del producto",
+                inputId: "nombre",
+                type: "text",
+              },
+              {
+                label: "Descripción",
+                inputId: "descripcion",
+                type: "text",
+              },
+            ],
+            mainTitle: "Nuevo producto",
+            shouldEnableEdit: true,
+            onCloseLabel: "Cerrar",
+          }}
+          isOpen={isCreateProductOpen}
+          onClose={() => {
+            setIsCreateProductOpen(false);
+            router.push("/");
+          }}
+        />
         <Typography variant="h3" color={"white"}>
           Hola, {user.nombre}
         </Typography>
@@ -153,7 +207,7 @@ const Home: NextPageWithLayout<{
 };
 
 Home.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout user={usersArray[1]}>{page}</MainLayout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export default Home;

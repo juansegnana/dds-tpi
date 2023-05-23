@@ -10,96 +10,127 @@ import Paper from "@mui/material/Paper";
 export interface UserRow {
   id: string;
   nombre: string;
+  apellido: string;
   tipo: string;
   email: string;
   fecha: Date;
   direccion: string;
+  cuit: string;
 }
 
-function createData({ email, fecha, id, nombre, tipo, direccion }: UserRow) {
-  return { id, nombre, tipo, email, fecha, direccion };
+function createData({
+  email,
+  fecha,
+  id,
+  nombre,
+  tipo,
+  direccion,
+  apellido,
+  cuit,
+}: UserRow) {
+  return { id, nombre, tipo, email, fecha, direccion, apellido, cuit };
 }
 
 const rows: UserRow[] = [
   createData({
     id: "1",
-    nombre: "Juan Perez",
-    tipo: "Cliente",
+    nombre: "Juan",
+    apellido: "Perez",
+    tipo: "Cliente Empresa",
     email: "juan.perez@gmail.com",
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
+    cuit: "20-12345678-9",
   }),
   createData({
     id: "2",
-    nombre: "Ana Soto",
-    tipo: "Proveedor",
+    nombre: "Ana",
+    apellido: "Soto",
+    tipo: "Cliente Empresa",
     email: "ana.soto@gmail.com",
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
+    cuit: "20-12345678-9",
   }),
   createData({
     id: "3",
     nombre: "Pedro Rojas",
-    tipo: "Cliente",
+    apellido: "Rojas",
+    tipo: "Cliente Particular",
     email: "pedro.rojas@gmail.com",
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
+    cuit: "20-12345678-9",
   }),
   createData({
     id: "4",
-    nombre: "Maria Pineda",
-    tipo: "Proveedor",
+    nombre: "Maria",
+    apellido: "Pineda",
+    tipo: "Cliente Particular",
     email: "maria.pineda@gmail.com",
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
+    cuit: "20-12345678-9",
   }),
   createData({
     id: "5",
-    nombre: "Carlos Ramirez",
-    tipo: "Cliente",
+    nombre: "Carlos",
+    apellido: "Ramirez",
+    tipo: "Cliente Particular",
     email: "carlos.ramirez@gmail.com",
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
+    cuit: "20-12345678-9",
   }),
   createData({
     id: "6",
-    nombre: "Lucia Mendez",
-    tipo: "Proveedor",
+    nombre: "Lucia",
+    apellido: "Mendez",
+    tipo: "Cliente Particular",
     email: "lucia.mendez@gmail.com",
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
+    cuit: "20-12345678-9",
   }),
   createData({
     id: "7",
-    nombre: "Miguel Torres",
-    tipo: "Cliente",
+    nombre: "Miguel",
+    apellido: "Torres",
+    tipo: "Cliente Empresa",
     email: "miguel.torres@gmail.com",
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
+    cuit: "20-12345678-9",
   }),
   createData({
     id: "8",
-    nombre: "Sofia Lopez",
-    tipo: "Proveedor",
+    nombre: "Sofia",
+    apellido: "Lopez",
+    tipo: "Cliente Empresa",
     email: "sofia.lopez@gmail.com",
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
+    cuit: "20-12345678-9",
   }),
   createData({
     id: "9",
-    nombre: "Luis Morales",
-    tipo: "Cliente",
+    nombre: "Luis",
+    apellido: "Morales",
+    tipo: "Cliente Particular",
     email: "luis.morales@gmail.com",
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
+    cuit: "20-12345678-9",
   }),
   createData({
     id: "10",
-    nombre: "Laura Castillo",
-    tipo: "Proveedor",
+    nombre: "Laura",
+    apellido: "Castillo",
+    tipo: "Cliente Particular",
     email: "laura.castillo@gmail.com",
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
+    cuit: "20-12345678-9",
   }),
 ];
 

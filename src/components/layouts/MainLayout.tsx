@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Avatar, Box, Breadcrumbs, Typography } from "@mui/material";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useContext, useState } from "react";
 import Link from "next/link";
 import { User } from "@/pages";
 import { useRouter } from "next/router";
+import UserContext, { usersArray } from "@/contexts/UserContext";
 
 const BreadcrumbsComponent: FC<{
   numberOfRoutes: number;
@@ -53,13 +54,24 @@ const BreadcrumbsComponent: FC<{
 };
 
 const MainLayout: FC<{
-  user?: User;
+  // user?: User;
   children: ReactNode;
   variant?: "login";
-}> = ({ user, children, variant }) => {
+}> = ({ children, variant }) => {
+  // const { user } = useContext(UserContext);
+
   const router = useRouter();
   const routesFormatted = router.asPath.split("/").filter((x) => x);
   const numberOfRoutes = routesFormatted.length;
+
+  const [currentUser, setCurrentUser] = useState<User>(usersArray[1]);
+  console.log("layout currentUser", currentUser);
+
+  console.log("currentUser", currentUser);
+
+  const handleSetUser = (user: User) => {
+    setCurrentUser(user);
+  };
 
   return (
     <>
@@ -88,7 +100,7 @@ const MainLayout: FC<{
               />
               <Typography variant="h4">Gestión Reciplas</Typography>
             </Box>
-            {user && (
+            {currentUser && (
               <Box
                 sx={{
                   display: "flex",
@@ -101,7 +113,7 @@ const MainLayout: FC<{
                   alt="Usuario"
                   src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png"
                 />
-                <Typography color="white">{user.nombre}</Typography>
+                <Typography color="white">{currentUser.nombre}</Typography>
               </Box>
             )}
           </div>
@@ -114,16 +126,27 @@ const MainLayout: FC<{
               padding: 8,
               paddingLeft: 45,
               backgroundColor: "white",
+              display: "flex",
+              justifyContent: "space-between",
             }}
           >
             <BreadcrumbsComponent
               numberOfRoutes={numberOfRoutes}
               routesFormatted={routesFormatted}
             />
+            <Box sx={{ marginLeft: 16 }}>
+              <Typography variant="caption" fontSize={14} color="text.primary">
+                Area: {currentUser.area}
+              </Typography>
+            </Box>
           </div>
         )}
         {/* Children */}
-        {children}
+        <UserContext.Provider
+          value={{ user: currentUser, setUser: handleSetUser }}
+        >
+          {children}
+        </UserContext.Provider>
       </main>
     </>
   );
