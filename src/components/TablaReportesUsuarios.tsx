@@ -11,6 +11,7 @@ import { Area } from "@/pages";
 export interface UsuariosSistemaRow {
   id: string;
   nombre: string;
+  apellido: string;
   sector: Area;
   dni: number;
   email: string;
@@ -23,7 +24,8 @@ export interface UsuariosSistemaRow {
 const rows: UsuariosSistemaRow[] = [
   {
     id: "1",
-    nombre: "Juan Perez",
+    nombre: "Juan",
+    apellido: "Perez",
     sector: "compras",
     dni: 12345678,
     email: "juan@gmail.com",
@@ -34,7 +36,8 @@ const rows: UsuariosSistemaRow[] = [
   },
   {
     id: "2",
-    nombre: "Pepe Garcia",
+    nombre: "Pepe",
+    apellido: "Gonzalez",
     sector: "gerencial",
     dni: 3333333,
     email: "pepe@gmail.com",
@@ -45,7 +48,8 @@ const rows: UsuariosSistemaRow[] = [
   },
   {
     id: "3",
-    nombre: "Maria Rodriguez",
+    nombre: "Maria",
+    apellido: "Rodriguez",
     sector: "administracion",
     dni: 12345679,
     email: "maria@gmail.com",
@@ -56,7 +60,8 @@ const rows: UsuariosSistemaRow[] = [
   },
   {
     id: "4",
-    nombre: "Carlos Martinez",
+    nombre: "Carlos",
+    apellido: "Martinez",
     sector: "ventas",
     dni: 12345680,
     email: "carlos@gmail.com",
@@ -67,7 +72,8 @@ const rows: UsuariosSistemaRow[] = [
   },
   {
     id: "5",
-    nombre: "Luisa Fernandez",
+    nombre: "Luisa",
+    apellido: "Gomez",
     sector: "produccion",
     dni: 12345681,
     email: "luisa@gmail.com",
@@ -78,7 +84,8 @@ const rows: UsuariosSistemaRow[] = [
   },
   {
     id: "6",
-    nombre: "Antonio Ramirez",
+    nombre: "Antonio",
+    apellido: "Ramirez",
     sector: "compras",
     dni: 12345682,
     email: "antonio@gmail.com",
@@ -89,7 +96,8 @@ const rows: UsuariosSistemaRow[] = [
   },
   {
     id: "7",
-    nombre: "Isabel Guzman",
+    nombre: "Isabel",
+    apellido: "Guzman",
     sector: "gerencial",
     dni: 12345683,
     email: "isabel@gmail.com",
@@ -100,7 +108,8 @@ const rows: UsuariosSistemaRow[] = [
   },
   {
     id: "8",
-    nombre: "Ricardo Morales",
+    nombre: "Ricardo",
+    apellido: "Sanchez",
     sector: "administracion",
     dni: 12345684,
     email: "ricardo@gmail.com",
@@ -111,7 +120,8 @@ const rows: UsuariosSistemaRow[] = [
   },
   {
     id: "9",
-    nombre: "Ana Mendoza",
+    nombre: "Ana",
+    apellido: "Mendoza",
     sector: "ventas",
     dni: 12345685,
     email: "ana@gmail.com",
@@ -122,7 +132,8 @@ const rows: UsuariosSistemaRow[] = [
   },
   {
     id: "10",
-    nombre: "Fernando Reyes",
+    nombre: "Fernando",
+    apellido: "Reyes",
     sector: "produccion",
     dni: 12345686,
     email: "fernando@gmail.com",
@@ -148,6 +159,7 @@ const TablaReportesUsuarios: FC<Props> = ({ openDrawerDetails }) => {
           <TableRow>
             <TableCell>ID</TableCell>
             <TableCell align="center">Nombre</TableCell>
+            <TableCell align="center">Apellido</TableCell>
             <TableCell align="center">Sector</TableCell>
           </TableRow>
         </TableHead>
@@ -168,6 +180,7 @@ const TablaReportesUsuarios: FC<Props> = ({ openDrawerDetails }) => {
                 {row.id}
               </TableCell>
               <TableCell align="center">{row.nombre}</TableCell>
+              <TableCell align="center">{row.apellido}</TableCell>
               <TableCell align="center">{row.sector}</TableCell>
             </TableRow>
           ))}

@@ -114,7 +114,7 @@ const UsuarioDetailsDrawer: FC<{
                   label="Apellido"
                   id="test"
                   type="text"
-                  value={userData?.nombre}
+                  value={userData?.apellido}
                   disabled={!!userData}
                 />
               </Box>

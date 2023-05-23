@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Avatar, Box, Breadcrumbs, Typography } from "@mui/material";
-import { FC, ReactNode, useContext, useState } from "react";
+import { Avatar, Box, Breadcrumbs, Button, Typography } from "@mui/material";
+import { FC, ReactNode, useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { User } from "@/pages";
 import { useRouter } from "next/router";
@@ -58,15 +58,42 @@ const MainLayout: FC<{
   children: ReactNode;
   variant?: "login";
 }> = ({ children, variant }) => {
+  const { user } = useContext(UserContext);
   const router = useRouter();
   const routesFormatted = router.asPath.split("/").filter((x) => x);
   const numberOfRoutes = routesFormatted.length;
 
-  const [currentUser, setCurrentUser] = useState<User>(usersArray[4]);
+  const [currentUser, setCurrentUser] = useState<User>(usersArray[0]);
+
+  // Check if `user` is undefined, then redirect to `/login`
+  // if (!user.nombre && variant !== "login") {
+  //   router.push("/login");
+  //   return null;
+  // }
+
+  // if (!router || !user) {
+  //   return <>Cargando...</>;
+  // }
+
+  // if (!user.nombre && variant !== "login") {
+  //   router.push("/login");
+  //   // return <>Cargando 2...</>;
+  // }
+
+  // useEffect(() => {
+  //   if (!user.nombre && variant !== "login") {
+  //     router.push("/login");
+  //   }
+  // }, [router, user, variant]);
 
   const handleSetUser = (user: User) => {
     setCurrentUser(user);
   };
+
+  // if (!user.nombre && variant !== "login") {
+  //   // router.push("/login");
+  //   return <>Cargando...</>;
+  // }
 
   return (
     <>
@@ -104,6 +131,9 @@ const MainLayout: FC<{
                   alignItems: "center",
                 }}
               >
+                <Link href="/login">
+                  <Button sx={{ color: "white" }}>Cerrar sesión</Button>
+                </Link>
                 <Avatar
                   alt="Usuario"
                   src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png"

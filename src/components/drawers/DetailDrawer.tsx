@@ -84,6 +84,7 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
         <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id="demo-multiple-checkbox-label">{label}</InputLabel>
           <Select
+            autoComplete="off"
             labelId="demo-multiple-checkbox-label"
             id="demo-multiple-checkbox"
             multiple
@@ -138,6 +139,7 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
         <FormControl fullWidth key={itemKey}>
           <InputLabel id="select-label">{label}</InputLabel>
           <Select
+            autoComplete="off"
             key={`${itemKey}-select`}
             labelId="select-label"
             id="simple-select"
@@ -161,6 +163,7 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
     // STRING or NUMBER or EMAIL
     return (
       <TextField
+        autoComplete="off"
         key={`${inputId}-${itemValue}-${type}`}
         fullWidth
         label={label}

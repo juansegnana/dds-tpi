@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { RowValues, TableInfo } from "./TableWithFilters";
+import { formatearLabel } from "@/utils/format";
 
 interface Props {
   openDrawerDetails: (details: RowValues) => void;
@@ -26,7 +27,7 @@ const TablaReutilizable: FC<Props> = ({ openDrawerDetails, tableInfo }) => {
           <TableRow>
             {visibleColumns.map((property) => (
               <TableCell align="center" key={property}>
-                {property}
+                {formatearLabel(property)}
               </TableCell>
             ))}
           </TableRow>
@@ -59,7 +60,7 @@ const TablaReutilizable: FC<Props> = ({ openDrawerDetails, tableInfo }) => {
               >
                 {rowValues.map((item) => (
                   <TableCell key={item} id={`${row.id}-${item}`} align="center">
-                    {item}
+                    {formatearLabel(item)}
                   </TableCell>
                 ))}
               </TableRow>
