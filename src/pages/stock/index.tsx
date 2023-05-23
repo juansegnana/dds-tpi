@@ -5,7 +5,6 @@ import TableWithFilters, {
 import { NextPageWithLayout } from "../_app";
 import { ReactElement, useContext } from "react";
 import MainLayout from "@/components/layouts/MainLayout";
-import { User, usersArray } from "..";
 import { DrawerInfo } from "@/components/drawers/DetailDrawer";
 import UserContext from "@/contexts/UserContext";
 
