@@ -143,7 +143,7 @@ const StockHomePage: NextPageWithLayout<{}> = ({}) => {
       tableInfo={tableInfo}
       drawerInfo={{
         ...drawerInfo,
-        shouldEnableEdit: user.area !== "administracion",
+        shouldEnableEdit: !["administracion", "gerencial"].includes(user.area),
       }}
       selectValues={selectValues}
       newButtonLabel={user.area === "compras" ? "Nueva compra" : undefined}

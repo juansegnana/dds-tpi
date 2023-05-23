@@ -97,13 +97,24 @@ const mainPageButtonsArr: AreaButton[] = [
     roleNeeded: ["ventas", "produccion"],
     href: "/pedidos",
   },
+  // GERENCIAL
+  {
+    label: "Reporte de Clientes",
+    roleNeeded: ["gerencial"],
+    href: "/clientes",
+  },
+  {
+    label: "Reporte de Compras",
+    roleNeeded: ["gerencial"],
+    href: "/compras",
+  },
 ];
 
 const Home: NextPageWithLayout<{
   mainPageButtons: AreaButton[];
 }> = ({ mainPageButtons = mainPageButtonsArr }) => {
   const { user } = useContext(UserContext) as UserContextType;
-  console.log("homepage", user);
+  // console.log("homepage", user);
 
   const buttonsForUser = useMemo(() => {
     const array = mainPageButtons.filter((button) =>

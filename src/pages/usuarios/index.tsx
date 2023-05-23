@@ -543,7 +543,7 @@ const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
 };
 
 UsuariosHomePage.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout user={usersArray[0]}>{page}</MainLayout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export default UsuariosHomePage;

@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { FC, ReactElement, useState } from "react";
+import { FC, ReactElement, useContext, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
 import { User, usersArray } from "..";
@@ -21,6 +21,7 @@ import Head from "next/head";
 import { DatePicker } from "@mui/x-date-pickers";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import dayjs from "dayjs";
+import UserContext from "@/contexts/UserContext";
 
 interface SelectValue {
   value: string;
@@ -46,6 +47,8 @@ const UsuarioDetailsDrawer: FC<{
   onClose: () => void;
   userData?: UserRow;
 }> = ({ isOpen, onClose, userData }) => {
+  const { user } = useContext(UserContext);
+
   return (
     <Drawer anchor={"right"} open={isOpen} onClose={onClose}>
       <Box style={{ width: "450px", padding: 8 }}>
@@ -147,27 +150,29 @@ const UsuarioDetailsDrawer: FC<{
               </FormControl>
             </Box>
 
-            <Box
-              display="flex"
-              justifyContent="space-around"
-              sx={{ width: "100%" }}
-            >
-              <Button
-                variant="contained"
-                color="error"
-                startIcon={<Delete />}
-                onClick={onClose}
+            {user.area !== "gerencial" && (
+              <Box
+                display="flex"
+                justifyContent="space-around"
+                sx={{ width: "100%" }}
               >
-                Borrar
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ width: "40%" }}
-                startIcon={userData ? <Edit /> : <Add />}
-              >
-                {userData ? "Editar" : "Crear"}
-              </Button>
-            </Box>
+                <Button
+                  variant="contained"
+                  color="error"
+                  startIcon={<Delete />}
+                  onClick={onClose}
+                >
+                  Borrar
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{ width: "40%" }}
+                  startIcon={userData ? <Edit /> : <Add />}
+                >
+                  {userData ? "Editar" : "Crear"}
+                </Button>
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>
@@ -286,6 +291,8 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
     undefined
   );
 
+  const { user } = useContext(UserContext);
+
   const handleToggleDrawer = (userData?: UserRow) => {
     if (userData) {
       setDrawerDetails({
@@ -374,15 +381,17 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
             >
               Emitir reporte
             </Button>
-            <Button
-              startIcon={<Add />}
-              variant="contained"
-              onClick={() => {
-                handleToggleDrawer();
-              }}
-            >
-              Nuevo cliente
-            </Button>
+            {user.area !== "gerencial" && (
+              <Button
+                startIcon={<Add />}
+                variant="contained"
+                onClick={() => {
+                  handleToggleDrawer();
+                }}
+              >
+                Nuevo cliente
+              </Button>
+            )}
           </Box>
         </Box>
       </div>

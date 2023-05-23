@@ -37,6 +37,10 @@ export const usersArray: User[] = [
     area: "ventas",
     nombre: "María",
   },
+  {
+    area: "gerencial",
+    nombre: "Armando Paredes",
+  },
 ];
 
 export type UserContextType = {

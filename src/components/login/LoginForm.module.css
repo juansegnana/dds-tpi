@@ -37,6 +37,15 @@
   border-radius: 20px;
   background: #f5ededc0;
 }
+.FondoInicio form select{
+  width: 90%;
+  outline: none;
+  border: 2px solid #fff;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  background: #f5ededc0;
+}
 .FondoInicio button{
   font-size: 1rem;
   margin-top: 2rem;

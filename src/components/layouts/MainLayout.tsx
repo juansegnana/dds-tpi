@@ -58,16 +58,11 @@ const MainLayout: FC<{
   children: ReactNode;
   variant?: "login";
 }> = ({ children, variant }) => {
-  // const { user } = useContext(UserContext);
-
   const router = useRouter();
   const routesFormatted = router.asPath.split("/").filter((x) => x);
   const numberOfRoutes = routesFormatted.length;
 
-  const [currentUser, setCurrentUser] = useState<User>(usersArray[1]);
-  console.log("layout currentUser", currentUser);
-
-  console.log("currentUser", currentUser);
+  const [currentUser, setCurrentUser] = useState<User>(usersArray[4]);
 
   const handleSetUser = (user: User) => {
     setCurrentUser(user);
@@ -100,7 +95,7 @@ const MainLayout: FC<{
               />
               <Typography variant="h4">Gestión Reciplas</Typography>
             </Box>
-            {currentUser && (
+            {currentUser && variant !== "login" && (
               <Box
                 sx={{
                   display: "flex",
