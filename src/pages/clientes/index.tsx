@@ -212,6 +212,8 @@ const CrearReporteDrawer: FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ isOpen, onClose }) => {
+  const { user } = useContext(UserContext);
+
   return (
     <Drawer anchor={"right"} open={isOpen} onClose={onClose}>
       <Box style={{ width: "450px", padding: 8 }}>
@@ -262,6 +264,9 @@ const CrearReporteDrawer: FC<{
                 >
                   <MenuItem value={"cliente"}>Clientes Particulares</MenuItem>
                   <MenuItem value={"empresa"}>Clientes Empresa</MenuItem>
+                  {user.area === "administracion" && (
+                    <MenuItem value={"deudores"}>Deudores</MenuItem>
+                  )}
                   {/* TODO: HANDLE */}
                   {/* <MenuItem value={"deudores"}>Deudores</MenuItem> */}
                 </Select>
