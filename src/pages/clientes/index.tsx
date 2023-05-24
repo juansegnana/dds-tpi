@@ -165,6 +165,20 @@ const UsuarioDetailsDrawer: FC<{
                   <MenuItem value={"proveedor"}>Proveedor</MenuItem>
                 </Select>
               </FormControl>
+
+              {["ventas", "administracion", "gerencial"].includes(
+                user.area
+              ) && (
+                <TextField
+                  autoComplete="no"
+                  disabled={!!userData}
+                  fullWidth
+                  label="Debe"
+                  id="test-deudores"
+                  type="number"
+                  value={userData?.debe}
+                />
+              )}
             </Box>
 
             {user.area !== "gerencial" && (

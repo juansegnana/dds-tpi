@@ -16,6 +16,7 @@ export interface UserRow {
   fecha: Date;
   direccion: string;
   cuit: string;
+  debe: number;
 }
 
 function createData({
@@ -27,8 +28,9 @@ function createData({
   direccion,
   apellido,
   cuit,
+  debe,
 }: UserRow) {
-  return { id, nombre, tipo, email, fecha, direccion, apellido, cuit };
+  return { id, nombre, tipo, email, fecha, direccion, apellido, cuit, debe };
 }
 
 const rows: UserRow[] = [
@@ -41,6 +43,7 @@ const rows: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
+    debe: 2000,
   }),
   createData({
     id: "2",
@@ -51,6 +54,7 @@ const rows: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
+    debe: 0,
   }),
   createData({
     id: "3",
@@ -61,6 +65,7 @@ const rows: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
+    debe: 100,
   }),
   createData({
     id: "4",
@@ -71,6 +76,7 @@ const rows: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
+    debe: 0,
   }),
   createData({
     id: "5",
@@ -81,6 +87,7 @@ const rows: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
+    debe: 5000,
   }),
   createData({
     id: "6",
@@ -91,6 +98,7 @@ const rows: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
+    debe: 9000,
   }),
   createData({
     id: "7",
@@ -101,6 +109,7 @@ const rows: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
+    debe: 0,
   }),
   createData({
     id: "8",
@@ -111,6 +120,7 @@ const rows: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
+    debe: 0,
   }),
   createData({
     id: "9",
@@ -121,6 +131,7 @@ const rows: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
+    debe: 0,
   }),
   createData({
     id: "10",
@@ -131,6 +142,7 @@ const rows: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
+    debe: 9100,
   }),
 ];
 

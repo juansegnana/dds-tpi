@@ -65,35 +65,9 @@ const MainLayout: FC<{
 
   const [currentUser, setCurrentUser] = useState<User>(usersArray[0]);
 
-  // Check if `user` is undefined, then redirect to `/login`
-  // if (!user.nombre && variant !== "login") {
-  //   router.push("/login");
-  //   return null;
-  // }
-
-  // if (!router || !user) {
-  //   return <>Cargando...</>;
-  // }
-
-  // if (!user.nombre && variant !== "login") {
-  //   router.push("/login");
-  //   // return <>Cargando 2...</>;
-  // }
-
-  // useEffect(() => {
-  //   if (!user.nombre && variant !== "login") {
-  //     router.push("/login");
-  //   }
-  // }, [router, user, variant]);
-
   const handleSetUser = (user: User) => {
     setCurrentUser(user);
   };
-
-  // if (!user.nombre && variant !== "login") {
-  //   // router.push("/login");
-  //   return <>Cargando...</>;
-  // }
 
   return (
     <>
