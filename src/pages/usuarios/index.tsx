@@ -348,16 +348,16 @@ const CrearReporteDrawer: FC<{
               justifyContent="space-around"
               sx={{ width: "100%" }}
             >
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<Download />}
-                onClick={onClose}
-              >
-                <Link target="_blank" href="/ejemplo_reciplas.pdf">
+              <Link target="_blank" href="/ejemplo_reciplas.pdf">
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<Download />}
+                  onClick={onClose}
+                >
                   Descargar informe
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </Box>
           </Box>
         </Box>

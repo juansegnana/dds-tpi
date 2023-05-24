@@ -43,11 +43,107 @@ const tableInfo: TableInfo = {
       calidad: "N/A",
       color: "Blanco",
     },
+    {
+      id: 3,
+      type: "text",
+      cantidad: 75,
+      fecha_cargada: new Date(),
+      tipo_stock: "materia_prima",
+      nombre_proveedor: "Envases Plast. S.A",
+      nombre_producto: "Envase",
+      categoria: "Envases Plast.",
+      calidad: "aceptable",
+      color: "N/A",
+    },
+    {
+      id: 4,
+      type: "text",
+      cantidad: 60,
+      fecha_cargada: new Date(),
+      tipo_stock: "materia_prima",
+      nombre_proveedor: "Pallets Corp",
+      nombre_producto: "Pallet",
+      categoria: "Pallets",
+      calidad: "N/A",
+      color: "N/A",
+    },
+    {
+      id: 5,
+      type: "text",
+      cantidad: 40,
+      fecha_cargada: new Date(),
+      tipo_stock: "materia_prima",
+      nombre_proveedor: "Muebles Ltd",
+      nombre_producto: "Madera",
+      categoria: "Muebles",
+      calidad: "N/A",
+      color: "N/A",
+    },
+    {
+      id: 6,
+      type: "text",
+      cantidad: 25,
+      fecha_cargada: new Date(),
+      tipo_stock: "materia_prima",
+      nombre_proveedor: "Químicos Inc",
+      nombre_producto: "Acido",
+      categoria: "Químicos",
+      calidad: "N/A",
+      color: "N/A",
+    },
+    {
+      id: 7,
+      type: "text",
+      cantidad: 30,
+      fecha_cargada: new Date(),
+      tipo_stock: "materia_prima",
+      nombre_proveedor: "Plastico S.A",
+      nombre_producto: "Plástico",
+      categoria: "plastico",
+      calidad: "mala",
+      color: "N/A",
+    },
+    {
+      id: 8,
+      type: "text",
+      cantidad: 80,
+      fecha_cargada: new Date(),
+      tipo_stock: "materia_prima",
+      nombre_proveedor: "Tintes S.A",
+      nombre_producto: "Tinte Negro",
+      categoria: "tintes",
+      calidad: "N/A",
+      color: "Negro",
+    },
+    {
+      id: 9,
+      type: "text",
+      cantidad: 90,
+      fecha_cargada: new Date(),
+      tipo_stock: "materia_prima",
+      nombre_proveedor: "Plastico S.A",
+      nombre_producto: "Plástico",
+      categoria: "plastico",
+      calidad: "aceptable",
+      color: "N/A",
+    },
+    {
+      id: 10,
+      type: "text",
+      cantidad: 55,
+      fecha_cargada: new Date(),
+      tipo_stock: "materia_prima",
+      nombre_proveedor: "Pallets Corp",
+      nombre_producto: "Pallet",
+      categoria: "Pallets",
+      calidad: "N/A",
+      color: "N/A",
+    },
   ],
 };
 
 const drawerInfo: DrawerInfo = {
-  mainTitle: "Gestionar Compra",
+  mainTitle: "Gestionar Ítem",
   onCloseLabel: "Desea borrar el item?",
   onCreateLabel: "Nuevo item cargado en el stock",
   formValues: [
@@ -128,6 +224,14 @@ const drawerInfo: DrawerInfo = {
   ],
   markValues: [
     {
+      value: "Materia Prima",
+      label: "materia_prima",
+    },
+    {
+      value: "Productos Producidos",
+      label: "producidos",
+    },
+    {
       value: "Químicos",
       label: "Químicos",
     },
@@ -169,21 +273,6 @@ const selectValues: SelectValue[] = [
 const StockHomePage: NextPageWithLayout<{}> = ({}) => {
   const { user } = useContext(UserContext);
 
-  // user.role === 'compras' entonces no se muestra producido
-
-  // const selectForm = [];
-  // selectForm.push({
-  //   value: "materia_prima",
-  //   label: "Materia Prima",
-  // });
-
-  // if (user.area !== "compras") {
-  //   selectForm.push({
-  //     value: "producido",
-  //     label: "Producido",
-  //   });
-  // }
-
   return (
     <TableWithFilters
       pageTitle="Gestión de Stock"
@@ -191,6 +280,7 @@ const StockHomePage: NextPageWithLayout<{}> = ({}) => {
       drawerInfo={{
         ...drawerInfo,
         shouldEnableEdit: !["administracion", "gerencial"].includes(user.area),
+        shouldEnableDelete: !["ventas"].includes(user.area),
       }}
       selectValues={selectValues}
       newButtonLabel={user.area === "compras" ? "Nueva compra" : undefined}

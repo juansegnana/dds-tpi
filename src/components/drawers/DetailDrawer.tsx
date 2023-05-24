@@ -35,6 +35,7 @@ export interface DrawerInfo {
   mainTitle: string;
   markValues?: SelectValue[];
   shouldEnableEdit?: boolean;
+  shouldEnableDelete?: boolean;
 }
 
 /**
@@ -64,6 +65,7 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
     formValues,
     mainTitle,
     shouldEnableEdit = true,
+    shouldEnableDelete = true,
   } = drawerInfo;
 
   const getInputComponent = (formValue: FormValue) => {
@@ -238,7 +240,7 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
                 justifyContent="space-around"
                 sx={{ width: "100%" }}
               >
-                {itemData && (
+                {itemData && shouldEnableDelete && (
                   <Button
                     variant="contained"
                     color="error"

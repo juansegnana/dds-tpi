@@ -145,17 +145,17 @@ export const CrearReporteDrawer: FC<{
               //   alert("Descargando informe...");
               // }}
             >
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<Download />}
-                // onClick={onClose} // TODO
-              >
-                {/* TODO: probar */}
-                <Link target="_blank" href="/ejemplo_reciplas.pdf">
+              <Link target="_blank" href="/ejemplo_reciplas.pdf">
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<Download />}
+                  // onClick={onClose} // TODO
+                >
+                  {/* TODO: probar */}
                   Descargar informe
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </Box>
           </Box>
         </Box>
