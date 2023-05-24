@@ -106,7 +106,7 @@ const UsuarioDetailsDrawer: FC<{
                   autoComplete="no"
                   disabled={!!userData}
                   fullWidth
-                  label="Apellido"
+                  label="Apellido (opcional)"
                   id="test"
                   type="text"
                   value={userData?.apellido}

@@ -86,15 +86,23 @@ const MainLayout: FC<{
               justifyContent: "space-between",
             }}
           >
-            <Box sx={{ display: "flex", alignContent: "center" }}>
-              <Image
-                src={"/recycle-bin.png"}
-                alt="icon"
-                width={46}
-                height={46}
-              />
-              <Typography variant="h4">Gestión Reciplas</Typography>
-            </Box>
+            <Link href="/">
+              <Box
+                sx={{
+                  display: "flex",
+                  alignContent: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <Image
+                  src={"/recycle-bin.png"}
+                  alt="icon"
+                  width={46}
+                  height={46}
+                />
+                <Typography variant="h4">Gestión Reciplas</Typography>
+              </Box>
+            </Link>
             {currentUser && variant !== "login" && (
               <Box
                 sx={{

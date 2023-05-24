@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 export interface UserRow {
   id: string;
   nombre: string;
-  apellido: string;
+  apellido?: string;
   tipo: string;
   email: string;
   fecha: Date;

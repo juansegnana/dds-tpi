@@ -109,7 +109,7 @@ const OrdenDetailsDrawer: FC<{
               </FormControl>
               <TextField
                 fullWidth
-                label={`Nombre del Comprador`}
+                label={`Nombre del Cliente/Proveedor`}
                 id="test"
                 type="text"
                 value={ordenData?.nombrePoC}

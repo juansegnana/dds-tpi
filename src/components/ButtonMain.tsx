@@ -39,6 +39,8 @@ const ButtonMain: FC<{
       <Button
         style={{
           padding: 64,
+          width: 300,
+          height: 100,
         }}
         variant="contained"
         color={getColorByType(type)}
