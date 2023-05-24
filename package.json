@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "new-zip": "sh ./scripts/create_zip.sh"
+    "zip": "sh ./scripts/create_zip.sh"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
