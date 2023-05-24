@@ -88,13 +88,13 @@ const mainPageButtonsArr: AreaButton[] = [
   // STOCK
   {
     label: "Reporte de Stock",
-    roleNeeded: ["administracion", "ventas", "gerencial"],
+    roleNeeded: ["administracion", "gerencial"],
     href: "/stock",
     type: "reporte",
   },
   {
     label: "Gestión de Stock",
-    roleNeeded: ["compras", "produccion"],
+    roleNeeded: ["compras", "produccion", "ventas"],
     href: "/stock",
     type: "gestion",
   },
@@ -113,7 +113,7 @@ const mainPageButtonsArr: AreaButton[] = [
     type: "reporte",
   },
   {
-    label: "Reporte de Compras",
+    label: "Reporte de Compras y Ventas",
     roleNeeded: ["gerencial"],
     href: "/compras",
     type: "reporte",
