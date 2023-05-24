@@ -278,9 +278,9 @@ const CrearReporteDrawer: FC<{
                 >
                   <MenuItem value={"cliente"}>Clientes Particulares</MenuItem>
                   <MenuItem value={"empresa"}>Clientes Empresa</MenuItem>
-                  {user.area === "administracion" && (
-                    <MenuItem value={"deudores"}>Deudores</MenuItem>
-                  )}
+                  {["administracion", "ventas", "gerencial"].includes(
+                    user.area
+                  ) && <MenuItem value={"deudores"}>Deudores</MenuItem>}
                   {/* TODO: HANDLE */}
                   {/* <MenuItem value={"deudores"}>Deudores</MenuItem> */}
                 </Select>
