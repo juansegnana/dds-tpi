@@ -77,7 +77,6 @@ export const CrearReporteDrawer: FC<{
                     value={markValues}
                     onChange={() => {}}
                     input={<OutlinedInput label={"Categorías"} />}
-                    // renderValue={(selected) => (selected as string).join(", ")}
                   >
                     {markValues.map((markValue) => (
                       <MenuItem
@@ -141,18 +140,13 @@ export const CrearReporteDrawer: FC<{
               display="flex"
               justifyContent="space-around"
               sx={{ width: "100%" }}
-              // onClick={() => {
-              //   alert("Descargando informe...");
-              // }}
             >
               <Link target="_blank" href="/ejemplo_reciplas.pdf">
                 <Button
                   variant="contained"
                   color="secondary"
                   startIcon={<Download />}
-                  // onClick={onClose} // TODO
                 >
-                  {/* TODO: probar */}
                   Descargar informe
                 </Button>
               </Link>

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Avatar, Box, Breadcrumbs, Button, Typography } from "@mui/material";
-import { FC, ReactNode, useContext, useEffect, useState } from "react";
+import { FC, ReactNode, useContext, useState } from "react";
 import Link from "next/link";
 import { User } from "@/pages";
 import { useRouter } from "next/router";
@@ -54,7 +54,6 @@ const BreadcrumbsComponent: FC<{
 };
 
 const MainLayout: FC<{
-  // user?: User;
   children: ReactNode;
   variant?: "login";
 }> = ({ children, variant }) => {

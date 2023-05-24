@@ -1,42 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# DDS-TPI-1
 
-## Getting Started
+Universidad Tecnológica Nacional - *Facultad Regional de Resistencia*
 
-First, run the development server:
+**Cátedra**: Diseño de Sistemas.
+
+**Año**: 2023.
+
+## Iniciar Proyecto Localmente
+
+Para iniciar el proyecto localmente, asegurarse de tener instalado [Node.js](https://nodejs.org/en/download).
+
+Luego, en esta misma carpeta, correr el comando para instalar dependencias:
 
 ```bash
 npm install
 ```
 
+Y luego, para iniciar el servidor de desarrollo:
+
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+# o en modo producción
+npm run build && npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir [http://localhost:3000](http://localhost:3000) en el navegador para ver el proyecto.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Acerca del Proyecto
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Este proyecto fue creado con [Next.js](https://nextjs.org/), un framework de React para crear aplicaciones web. Fue elegido por su facilidad de uso y su integración con [Vercel](https://vercel.com/), un servicio de hosting que permite desplegar aplicaciones web de forma gratuita. Además, ya qu su base está en React, permite crear, reutilizar componentes y usar módulos visuales de forma sencilla.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Autores
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Arduña Zago, Agustín Juan Luis
+- Fernández, Facundo Nahuel
+- Moselli, Yamil Apas
+- Schefer, Mauricio Nicolás
+- Segnana, Juan Franco
+- Velazco Gez Schegtel, Juan Ignacio

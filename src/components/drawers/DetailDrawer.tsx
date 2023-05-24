@@ -19,11 +19,9 @@ import {
   Typography,
 } from "@mui/material";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { formatLabel } from "@/utils/format";
 import { DatePicker } from "@mui/x-date-pickers";
-import { Add, Delete, Download, Edit } from "@mui/icons-material";
+import { Add, Delete, Edit } from "@mui/icons-material";
 import dayjs from "dayjs";
-import Link from "next/link";
 
 export interface DrawerInfo {
   onCloseLabel: string;
@@ -93,7 +91,6 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
             value={itemValue}
             onChange={() => {}}
             input={<OutlinedInput label={label} />}
-            // renderValue={(selected) => (selected as string).join(", ")}
           >
             {formSelectValues.map((formSelect) => (
               <MenuItem

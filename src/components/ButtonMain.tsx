@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import Link from "next/link";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import AssessmentIcon from "@mui/icons-material/Assessment";

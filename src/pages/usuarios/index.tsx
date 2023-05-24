@@ -12,7 +12,7 @@ import {
 import { FC, ReactElement, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-import { AreaEnum, usersArray } from "..";
+import { AreaEnum } from "..";
 import MainLayout from "../../components/layouts/MainLayout";
 import { Add, Delete, Download, Edit, Search } from "@mui/icons-material";
 
@@ -377,7 +377,6 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
     if (userData) {
       setDrawerDetails({
         ...userData,
-        // tipo: (userData.tipo as any).toLowerCase(),
       });
     } else {
       setDrawerDetails(undefined);

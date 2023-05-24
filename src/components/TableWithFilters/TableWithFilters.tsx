@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Checkbox,
-  Drawer,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -12,28 +11,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { FC, ReactElement, useState } from "react";
+import { FC, useState } from "react";
 
 // TODO change path of types
 import { NextPageWithLayout } from "../../pages/_app";
-import { Add, Delete, Edit, Feed, Search } from "@mui/icons-material";
+import { Add, Feed, Search } from "@mui/icons-material";
 
 import Head from "next/head";
-// For time picker
-import { DatePicker } from "@mui/x-date-pickers";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import dayjs from "dayjs";
 
 import { formatLabel } from "@/utils/format";
 import TablaReutilizable from "./TablaReutilizable";
 import CrearReporteDrawer from "../drawers/CrearReporteDrawer";
 import DetailDrawer, { DrawerInfo } from "../drawers/DetailDrawer";
-import { AreaEnum } from "@/pages";
 
 /**
  * TIPADOS
  */
-
 export type InputType =
   | "text"
   | "email"
@@ -348,9 +341,5 @@ const TableWithFilters: NextPageWithLayout<TableWithFiltersProps> = ({
     </>
   );
 };
-
-// TableWithFilters.getLayout = function getLayout(page: ReactElement) {
-//   return <MainLayout user={usersArray[0]}>{page}</MainLayout>;
-// };
 
 export default TableWithFilters;

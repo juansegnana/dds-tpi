@@ -127,7 +127,6 @@ const PedidosHomePage: NextPageWithLayout<{ user: User }> = ({
       tableInfo={tableInfo}
       drawerInfo={drawerInfo}
       selectValues={selectValues}
-      // newButtonLabel={user.area === "compras" ? "Nuevo Producto" : undefined}
       categories={["Muebles", "Pallets", "Envases Plast."]}
       displayReportes={false}
     />

@@ -139,9 +139,7 @@ const TablaReportes: FC<Props> = ({ openDrawerDetails }) => {
             <TableCell align="center">Nombre Producto</TableCell>
             <TableCell align="center">Tipo</TableCell>
             <TableCell align="center">Cantidad</TableCell>
-            {/* <TableCell align="center">Nombre de Prov/Cli</TableCell> */}
             <TableCell align="center">Fecha</TableCell>
-            {/* <TableCell align="center">Precio U.</TableCell> */}
             <TableCell align="center">Precio Total</TableCell>
           </TableRow>
         </TableHead>
@@ -164,11 +162,9 @@ const TablaReportes: FC<Props> = ({ openDrawerDetails }) => {
               <TableCell align="center">{row.nombreProducto}</TableCell>
               <TableCell align="center">{row.tipo}</TableCell>
               <TableCell align="center">{row.cantidades}</TableCell>
-              {/* <TableCell align="center">{row.nombrePoC}</TableCell> */}
               <TableCell align="center">
                 {row.fecha.toJSON().split("T")[0]}
               </TableCell>
-              {/* <TableCell align="center">{row.precioUnitario}</TableCell> */}
               <TableCell align="center">{row.precioTotal}</TableCell>
             </TableRow>
           ))}
