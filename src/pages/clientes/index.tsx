@@ -84,7 +84,7 @@ const UsuarioDetailsDrawer: FC<{
                   textDecoration: "underline",
                 }}
               >
-                {`${userData ? "Editar" : "Nuevo"} Cliente`}
+                {`${userData ? "Editar" : "Nuevo"} Cli./Prov.`}
               </Typography>
             </Box>
             <Box
