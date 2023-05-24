@@ -22,6 +22,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import dayjs from "dayjs";
 import TablaReportes, { CompraVentaRow } from "@/components/TablaReportes";
+import Link from "next/link";
 
 interface SelectValue {
   value: string;
@@ -268,9 +269,11 @@ const CrearReporteDrawer: FC<{
                 variant="contained"
                 color="secondary"
                 startIcon={<Download />}
-                onClick={onClose}
+                // onClick={onClose}
               >
-                Descargar informe
+                <Link target="_blank" href="/ejemplo_reciplas.pdf">
+                  Descargar informe
+                </Link>
               </Button>
             </Box>
           </Box>

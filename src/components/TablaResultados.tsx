@@ -46,7 +46,7 @@ const rows: UserRow[] = [
     id: "2",
     nombre: "Ana",
     apellido: "Soto",
-    tipo: "Cliente Empresa",
+    tipo: "Proveedor",
     email: "ana.soto@gmail.com",
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",

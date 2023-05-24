@@ -60,7 +60,7 @@ interface AreaButton {
 
 const mainPageButtonsArr: AreaButton[] = [
   {
-    label: "Gestión de Clientes/Proveedores",
+    label: "Gestión de Clientes y Proveedores",
     roleNeeded: ["administracion", "ventas"],
     href: "/clientes",
   },
@@ -83,12 +83,12 @@ const mainPageButtonsArr: AreaButton[] = [
   // STOCK
   {
     label: "Reporte de Stock",
-    roleNeeded: ["administracion", "produccion", "ventas", "gerencial"],
+    roleNeeded: ["administracion", "ventas", "gerencial"],
     href: "/stock",
   },
   {
     label: "Gestión de Stock",
-    roleNeeded: ["compras"],
+    roleNeeded: ["compras", "produccion"],
     href: "/stock",
   },
   // PRODUCCIÓN
@@ -99,7 +99,7 @@ const mainPageButtonsArr: AreaButton[] = [
   },
   // GERENCIAL
   {
-    label: "Reporte de Clientes",
+    label: "Reporte de Clientes y Proveedores",
     roleNeeded: ["gerencial"],
     href: "/clientes",
   },

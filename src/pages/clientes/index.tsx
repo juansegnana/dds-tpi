@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { FC, ReactElement, useContext, useState } from "react";
+import { FC, ReactElement, use, useContext, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
 import { User, usersArray } from "..";
@@ -22,6 +22,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import dayjs from "dayjs";
 import UserContext from "@/contexts/UserContext";
+import Link from "next/link";
 
 interface SelectValue {
   value: string;
@@ -39,6 +40,10 @@ const reportesValues: SelectValue[] = [
   {
     value: "particular",
     label: "Clientes Particulares",
+  },
+  {
+    value: "proveedor",
+    label: "Proveedores",
   },
 ];
 
@@ -89,6 +94,8 @@ const UsuarioDetailsDrawer: FC<{
             >
               <Box sx={{ display: "flex", gap: 2 }}>
                 <TextField
+                  disabled={!!userData}
+                  autoComplete="no"
                   fullWidth
                   label="Nombre"
                   id="test"
@@ -96,6 +103,8 @@ const UsuarioDetailsDrawer: FC<{
                   value={userData?.nombre}
                 />
                 <TextField
+                  autoComplete="no"
+                  disabled={!!userData}
                   fullWidth
                   label="Apellido"
                   id="test"
@@ -104,6 +113,8 @@ const UsuarioDetailsDrawer: FC<{
                 />
               </Box>
               <TextField
+                autoComplete="no"
+                disabled={!!userData}
                 fullWidth
                 label="Dirección"
                 id="test"
@@ -111,6 +122,7 @@ const UsuarioDetailsDrawer: FC<{
                 value={userData?.direccion}
               />
               <DatePicker
+                disabled={!!userData}
                 label="Fecha Nacimiento"
                 value={
                   userData
@@ -126,6 +138,8 @@ const UsuarioDetailsDrawer: FC<{
               />
 
               <TextField
+                autoComplete="no"
+                disabled={!!userData}
                 fullWidth
                 label="DNI/CUIT"
                 id="test"
@@ -136,6 +150,8 @@ const UsuarioDetailsDrawer: FC<{
               <FormControl fullWidth>
                 <InputLabel id="select-label">Seleccionar</InputLabel>
                 <Select
+                  autoComplete="no"
+                  disabled={!!userData}
                   labelId="select-label"
                   id="simple-select"
                   value={userData?.tipo || "cliente particular"}
@@ -146,6 +162,7 @@ const UsuarioDetailsDrawer: FC<{
                     Cliente Particular
                   </MenuItem>
                   <MenuItem value={"cliente empresa"}>Cliente Empresa</MenuItem>
+                  <MenuItem value={"proveedor"}>Proveedor</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -156,18 +173,29 @@ const UsuarioDetailsDrawer: FC<{
                 justifyContent="space-around"
                 sx={{ width: "100%" }}
               >
-                <Button
-                  variant="contained"
-                  color="error"
-                  startIcon={<Delete />}
-                  onClick={onClose}
-                >
-                  Borrar
-                </Button>
+                {userData && (
+                  <Button
+                    variant="contained"
+                    color="error"
+                    startIcon={<Delete />}
+                    onClick={() => {
+                      if (!confirm("¿Está seguro que desea borrar?")) return;
+                      onClose();
+                    }}
+                  >
+                    Borrar
+                  </Button>
+                )}
                 <Button
                   variant="contained"
                   sx={{ width: "40%" }}
                   startIcon={userData ? <Edit /> : <Add />}
+                  onClick={() => {
+                    if (!userData) {
+                      alert("Nuevo cliente/proveedor subido");
+                      onClose();
+                    }
+                  }}
                 >
                   {userData ? "Editar" : "Crear"}
                 </Button>
@@ -272,9 +300,10 @@ const CrearReporteDrawer: FC<{
                 variant="contained"
                 color="secondary"
                 startIcon={<Download />}
-                onClick={onClose}
               >
-                Descargar informe
+                <Link target="_blank" href="/ejemplo_reciplas.pdf">
+                  Descargar informe
+                </Link>
               </Button>
             </Box>
           </Box>
@@ -389,7 +418,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
                   handleToggleDrawer();
                 }}
               >
-                Nuevo cliente
+                Nuevo cliente/proveedor
               </Button>
             )}
           </Box>
@@ -442,13 +471,17 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
   );
 };
 
-const UsuariosHomePage: NextPageWithLayout<{ user: User }> = ({
-  user = usersArray[3],
-}) => {
+const UsuariosHomePage: NextPageWithLayout<{ user: User }> = (
+  {
+    // user = usersArray[3],
+  }
+) => {
+  const { user } = useContext(UserContext);
+
   return (
     <>
       <Head>
-        <title>Gestión de Clientes</title>
+        <title>Gestión de Clientes y Proveedores</title>
       </Head>
       {/* Home Page */}
       <div
@@ -474,7 +507,7 @@ const UsuariosHomePage: NextPageWithLayout<{ user: User }> = ({
             color={"white"}
             sx={{ textDecoration: "underline", fontWeight: "bold" }}
           >
-            Gestión de Clientes
+            Gestión de Clientes y Proveedores
           </Typography>
         </div>
         {/* Contenido */}

@@ -26,7 +26,7 @@ const tableInfo: TableInfo = {
       fecha_cargada: new Date(),
       tipo_stock: "materia_prima",
       nombre_proveedor: "Plastico S.A",
-      nombre_producto: "Plastico",
+      nombre_producto: "Plástico",
       categoria: "plastico",
       calidad: "buena",
       color: "N/A",

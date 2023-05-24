@@ -24,6 +24,7 @@ import dayjs from "dayjs";
 import TablaReportesUsuarios, {
   UsuariosSistemaRow,
 } from "@/components/TablaReportesUsuarios";
+import Link from "next/link";
 
 interface SelectValue {
   value: string;
@@ -102,26 +103,29 @@ const UsuarioDetailsDrawer: FC<{
             >
               <Box display="flex" sx={{ gap: 2 }}>
                 <TextField
+                  autoComplete="nope"
                   fullWidth
                   label="Nombre"
-                  id="test"
+                  id="test123"
                   type="text"
                   value={userData?.nombre}
                   disabled={!!userData}
                 />
                 <TextField
+                  autoComplete="nope"
                   fullWidth
                   label="Apellido"
-                  id="test"
+                  id="test1234"
                   type="text"
                   value={userData?.apellido}
                   disabled={!!userData}
                 />
               </Box>
               <TextField
+                autoComplete="no"
                 fullWidth
                 label="DNI"
-                id="test"
+                id="testdni"
                 type="number"
                 value={userData?.dni}
                 disabled={!!userData}
@@ -130,6 +134,7 @@ const UsuarioDetailsDrawer: FC<{
               <FormControl fullWidth>
                 <InputLabel id="select-label">Seleccionar sector</InputLabel>
                 <Select
+                  autoComplete="no"
                   labelId="select-label"
                   id="simple-select"
                   value={userData?.sector || AreaEnum.Compras}
@@ -149,9 +154,10 @@ const UsuarioDetailsDrawer: FC<{
               </FormControl>
 
               <TextField
+                autoComplete="no"
                 fullWidth
                 label="Email"
-                id="test"
+                id="test-email"
                 type="email"
                 value={userData?.email}
                 disabled={!!userData}
@@ -175,17 +181,19 @@ const UsuarioDetailsDrawer: FC<{
 
               <Box display="flex" sx={{ gap: 2 }}>
                 <TextField
+                  autoComplete="no"
                   fullWidth
                   label="Dirección"
-                  id="test"
+                  id="test-direccion"
                   type="text"
                   value={userData?.direccion}
                   disabled={!!userData}
                 />
                 <TextField
+                  autoComplete="no"
                   fullWidth
                   label="Código Postal"
-                  id="test"
+                  id="test-codigo-postal"
                   type="number"
                   value={userData?.codigoPostal}
                   onInput={(e) => {
@@ -199,9 +207,10 @@ const UsuarioDetailsDrawer: FC<{
               </Box>
 
               <TextField
+                autoComplete="no"
                 fullWidth
                 label="Teléfono"
-                id="test"
+                id="test-telefono"
                 type="number"
                 value={userData?.telefono}
                 disabled={!!userData}
@@ -345,7 +354,9 @@ const CrearReporteDrawer: FC<{
                 startIcon={<Download />}
                 onClick={onClose}
               >
-                Descargar informe
+                <Link target="_blank" href="/ejemplo_reciplas.pdf">
+                  Descargar informe
+                </Link>
               </Button>
             </Box>
           </Box>
