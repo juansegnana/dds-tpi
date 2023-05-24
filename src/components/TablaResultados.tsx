@@ -187,7 +187,6 @@ const TablaResultados: FC<Props> = ({ openDrawerDetails }) => {
         : bValue.localeCompare(aValue);
     }
 
-    // If the values are not strings, just convert them to string for comparison
     const aValueStr = String(aValue);
     const bValueStr = String(bValue);
     return sort.direction === "asc"

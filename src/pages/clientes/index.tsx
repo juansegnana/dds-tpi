@@ -12,7 +12,7 @@ import {
 import { FC, ReactElement, use, useContext, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-import { User, usersArray } from "..";
+import { User } from "..";
 import MainLayout from "../../components/layouts/MainLayout";
 import { Add, Delete, Download, Edit, Feed, Search } from "@mui/icons-material";
 import TablaResultados, { UserRow } from "../../components/TablaResultados";
@@ -281,8 +281,6 @@ const CrearReporteDrawer: FC<{
                   {["administracion", "ventas", "gerencial"].includes(
                     user.area
                   ) && <MenuItem value={"deudores"}>Deudores</MenuItem>}
-                  {/* TODO: HANDLE */}
-                  {/* <MenuItem value={"deudores"}>Deudores</MenuItem> */}
                 </Select>
               </FormControl>
               <Typography textAlign="center" variant="h4">
@@ -490,11 +488,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
   );
 };
 
-const UsuariosHomePage: NextPageWithLayout<{ user: User }> = (
-  {
-    // user = usersArray[3],
-  }
-) => {
+const UsuariosHomePage: NextPageWithLayout<{}> = () => {
   const { user } = useContext(UserContext);
 
   return (

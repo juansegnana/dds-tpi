@@ -12,10 +12,8 @@ import {
 import { FC, ReactElement, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-import { usersArray } from "..";
 import MainLayout from "../../components/layouts/MainLayout";
 import { Download, Feed, Search } from "@mui/icons-material";
-// import TablaResultados, { UserRow } from "../../components/TablaResultados";
 import Head from "next/head";
 // For time picker
 import { DatePicker } from "@mui/x-date-pickers";
@@ -270,7 +268,6 @@ const CrearReporteDrawer: FC<{
                   variant="contained"
                   color="secondary"
                   startIcon={<Download />}
-                  // onClick={onClose}
                 >
                   Descargar informe
                 </Button>

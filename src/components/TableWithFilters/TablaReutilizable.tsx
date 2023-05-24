@@ -34,16 +34,14 @@ const TablaReutilizable: FC<Props> = ({ openDrawerDetails, tableInfo }) => {
         </TableHead>
         <TableBody>
           {rows.map((row) => {
-            const rowValues: string[] = []; // [`${row.id}`];
+            const rowValues: string[] = [];
             visibleColumns.forEach((column) => {
-              // if (column !== "id") {
               const item = row[column];
               let formatted = item;
               if (item instanceof Date) {
                 formatted = item.toJSON().split("T")[0];
               }
               rowValues.push(`${formatted}`);
-              // }
             });
 
             return (

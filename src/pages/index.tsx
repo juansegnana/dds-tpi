@@ -5,7 +5,6 @@ import MainLayout from "../components/layouts/MainLayout";
 import ButtonMain, { ButtonType } from "../components/ButtonMain";
 
 import { Typography } from "@mui/material";
-import { Info } from "@mui/icons-material";
 import UserContext, { UserContextType } from "@/contexts/UserContext";
 import { useRouter } from "next/router";
 import DetailDrawer from "@/components/drawers/DetailDrawer";
@@ -78,7 +77,7 @@ const mainPageButtonsArr: AreaButton[] = [
     href: "/usuarios",
     type: "gestion",
   },
-  // TODO
+  // Crear producto
   {
     label: "Registrar producto",
     roleNeeded: ["administracion"],

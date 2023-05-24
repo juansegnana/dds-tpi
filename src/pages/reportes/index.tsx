@@ -12,7 +12,6 @@ import {
 import { FC, ReactElement, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-import { usersArray } from "..";
 import MainLayout from "../../components/layouts/MainLayout";
 import { Add, Cancel, Edit, Feed, Search } from "@mui/icons-material";
 import TablaResultados, { UserRow } from "../../components/TablaResultados";
@@ -45,8 +44,6 @@ const UsuarioDetailsDrawer: FC<{
   onClose: () => void;
   userData?: UserRow;
 }> = ({ isOpen, onClose, userData }) => {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-
   return (
     <Drawer anchor={"right"} open={isOpen} onClose={onClose}>
       <Box style={{ width: "450px", padding: 8 }}>
