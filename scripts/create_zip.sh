@@ -7,7 +7,7 @@ cd "$(dirname "$0")/.."
 now=$(date +"%Y-%m-%d")
 
 # Create zip file excluding certain directories and files
-zip -r dds-grupo-6-tpi-$now.zip ./ -x \
+zip -r dds-grupo-4-tpi-$now.zip ./ -x \
 "*.next/*" \
 "*.vscode/*" \
 "*node_modules/*" \
