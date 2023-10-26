@@ -19,7 +19,7 @@ export interface UserRow {
   debe: number;
 }
 
-function createData({
+export function createData({
   email,
   fecha,
   id,
@@ -33,7 +33,7 @@ function createData({
   return { id, nombre, tipo, email, fecha, direccion, apellido, cuit, debe };
 }
 
-const rows: UserRow[] = [
+export const DEFAULT_USERS_ROWS: UserRow[] = [
   createData({
     id: "1",
     nombre: "Juan",
@@ -148,6 +148,7 @@ const rows: UserRow[] = [
 
 interface Props {
   openDrawerDetails: (details: UserRow) => void;
+  rows: UserRow[];
 }
 
 // Define a type for our sort state
@@ -156,44 +157,10 @@ type SortState = {
   direction: "asc" | "desc";
 };
 
-const TablaResultados: FC<Props> = ({ openDrawerDetails }) => {
-  // Para ordenar tabla
-  const [sort, setSort] = useState<SortState>({
-    column: null,
-    direction: "asc",
-  });
-
-  const handleSort = (column: keyof UserRow) => {
-    let direction: "asc" | "desc" = "asc";
-    if (sort.column === column && sort.direction === "asc") {
-      direction = "desc";
-    }
-
-    setSort({ column, direction });
-  };
-
-  // Sort the rows based on the sort state
-  const sortedRows = [...rows].sort((a, b) => {
-    if (sort.column === null) {
-      return 0;
-    }
-
-    const aValue = a[sort.column];
-    const bValue = b[sort.column];
-
-    if (typeof aValue === "string" && typeof bValue === "string") {
-      return sort.direction === "asc"
-        ? aValue.localeCompare(bValue)
-        : bValue.localeCompare(aValue);
-    }
-
-    const aValueStr = String(aValue);
-    const bValueStr = String(bValue);
-    return sort.direction === "asc"
-      ? aValueStr.localeCompare(bValueStr)
-      : bValueStr.localeCompare(aValueStr);
-  });
-
+const TablaResultados: FC<Props> = ({
+  openDrawerDetails,
+  rows = DEFAULT_USERS_ROWS,
+}) => {
   return (
     <TableContainer
       component={Paper}
@@ -202,16 +169,10 @@ const TablaResultados: FC<Props> = ({ openDrawerDetails }) => {
       <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell onClick={() => handleSort("id")}>ID</TableCell>
-            <TableCell align="center" onClick={() => handleSort("nombre")}>
-              Nombre
-            </TableCell>
-            <TableCell align="center" onClick={() => handleSort("tipo")}>
-              Tipo
-            </TableCell>
-            <TableCell align="center" onClick={() => handleSort("email")}>
-              Email
-            </TableCell>
+            <TableCell>ID</TableCell>
+            <TableCell align="center">Nombre</TableCell>
+            <TableCell align="center">Tipo</TableCell>
+            <TableCell align="center">Email</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
