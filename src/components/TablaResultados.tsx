@@ -148,7 +148,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
 
 interface Props {
   openDrawerDetails: (details: UserRow) => void;
-  rows: UserRow[];
+  rows?: UserRow[];
 }
 
 // Define a type for our sort state
