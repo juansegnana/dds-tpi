@@ -9,7 +9,15 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { FC, ReactElement, use, useContext, useState } from "react";
+import {
+  FC,
+  ReactElement,
+  use,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import { NextPageWithLayout } from "../_app";
 import { User } from "..";
@@ -51,43 +59,141 @@ const reportesValues: SelectValue[] = [
   },
 ];
 
+const FORM_DEFAULT = {
+  id: `new-user-${Math.random()}`,
+  email: "",
+  fecha: new Date(),
+  nombre: "",
+  tipo: "cliente particular",
+  direccion: "",
+  apellido: "",
+  cuit: "",
+  debe: 0,
+  telefono: 0,
+};
+
 const UsuarioDetailsDrawer: FC<{
   isOpen: boolean;
   onClose: (userRow?: UserRow, removeId?: string) => void;
   userData?: UserRow;
-  formType?: "cliente" | "proveedor";
-}> = ({ isOpen, onClose, userData, formType = "cliente" }) => {
+  formType?: "cliente" | "empresa";
+  cuits: string[];
+}> = ({ isOpen, onClose, userData, formType = "cliente", cuits = [] }) => {
   const [formData, setFormData] = useState<UserRow>({
+    ...FORM_DEFAULT,
     id: `new-user-${Math.random()}-${formType}`,
-    email: "",
-    fecha: new Date(),
-    nombre: "",
-    tipo: "",
-    direccion: "",
-    apellido: "",
-    cuit: "",
-    debe: 0,
   });
   const { user } = useContext(UserContext);
 
-  const handleOnClose = () => {
+  // console.log({
+  //   formType1: formType,
+  // });
+  const handleOnClose = useCallback(() => {
+    // console.log("on close formType", formType);
     const rowObject = createData(formData);
-    onClose(rowObject);
-  };
-
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
     setFormData({
-      ...formData,
-      [name]: value,
+      ...FORM_DEFAULT,
+      id: `new-user-${Math.random()}-${formType}`,
     });
-  };
+    onClose({
+      ...rowObject,
+      id: `new-user-${Math.random()}-${formType}`,
+      tipo: formType === "cliente" ? "cliente particular" : "cliente empresa",
+    });
+  }, [formData, formType, onClose]);
+
+  // console.log({
+  //   nameData: formData?.nombre,
+  // });
+
+  // TODO: arreglar validación no funca
+  const handleChange = useCallback(
+    (event: any) => {
+      const { name, value } = event.target;
+
+      // console.log({
+      //   name,
+      //   value,
+      // });
+
+      // const regexNoNumbers = /[^0-9]/g;
+      // let canSave = true;
+
+      // if (
+      //   formType === "cliente" &&
+      //   name === "nombre" &&
+      //   !regexNoNumbers.test(value)
+      // ) {
+      //   canSave = false;
+      // }
+
+      // console.log({ canSave, value });
+
+      // if (canSave) {
+      // console.log("guarda igual");
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+      // }
+    },
+    [formData]
+  );
 
   const handleDateChange = (newValue: any) => {
     setFormData({
       ...formData,
       fecha: newValue,
     });
+  };
+
+  const checkIsEmpty = () => {
+    const { apellido, cuit, direccion, email, nombre, tipo, telefono } =
+      formData;
+    if (formType === "cliente") {
+      if (
+        apellido &&
+        cuit &&
+        direccion &&
+        email &&
+        nombre &&
+        tipo &&
+        telefono
+      ) {
+        return true;
+      }
+    } else {
+      // console.log({
+      //   cuit,
+      //   direccion,
+      //   email,
+      //   nombre,
+      //   tipo,
+      //   telefono,
+      // });
+      if (cuit && direccion && email && nombre && tipo && telefono) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const handleSave = () => {
+    if (cuits.includes(formData.cuit)) {
+      alert("Ya existe un cliente con ese CUIT");
+      return;
+    }
+    if (!checkIsEmpty()) {
+      alert("Por favor, complete todos los campos");
+      return;
+    }
+    handleOnClose();
+    if (!userData) {
+      alert(`Nuevo ${formType} cargado.`);
+    } else {
+      alert(`Nuevo ${formType} editado.`);
+    }
+    onClose();
   };
 
   return (
@@ -121,7 +227,9 @@ const UsuarioDetailsDrawer: FC<{
                 }}
               >
                 {`${userData ? "Editar" : "Nuevo"} ${
-                  formType === "cliente" ? "Cliente Particular" : "Cliente Empresa"
+                  formType === "cliente"
+                    ? "Cliente Particular"
+                    : "Cliente Empresa"
                 }`}
               </Typography>
             </Box>
@@ -136,24 +244,27 @@ const UsuarioDetailsDrawer: FC<{
                 autoComplete="no"
                 disabled={!!userData}
                 fullWidth
-                label="DNI/CUIT"
+                label={formType === "cliente" ? "DNI/CUIT" : "CUIT"}
                 id="test"
                 type="text"
                 value={userData?.cuit}
               />
-                <TextField
-                  name={"nombre"}
-                  onChange={handleChange}
-                  disabled={!!userData}
-                  autoComplete="no"
-                  fullWidth
-                  label="Nombre"
-                  id="test"
-                  type="text"
-                  value={userData?.nombre}
-                />
-
               <TextField
+                name={"nombre"}
+                onChange={handleChange}
+                disabled={!!userData}
+                autoComplete="no"
+                fullWidth
+                label={
+                  formType === "cliente" ? "Nombre" : "Nombre de la empresa"
+                }
+                id="test"
+                type="text"
+                value={userData?.nombre}
+              />
+
+              {formType === "cliente" && (
+                <TextField
                   name={"apellido"}
                   onChange={handleChange}
                   autoComplete="no"
@@ -164,6 +275,7 @@ const UsuarioDetailsDrawer: FC<{
                   type="text"
                   value={userData?.apellido}
                 />
+              )}
               <TextField
                 name={"email"}
                 onChange={handleChange}
@@ -186,42 +298,53 @@ const UsuarioDetailsDrawer: FC<{
                 type="text"
                 value={userData?.direccion}
               />
-             {formType === "cliente" && ( 
-              <DatePicker
-                onChange={handleDateChange}
+              <TextField
+                name={"telefono"}
+                onChange={handleChange}
+                autoComplete="no"
                 disabled={!!userData}
-                label="Fecha Nacimiento"
-                value={
-                  userData
-                    ? dayjs(userData.fecha?.toISOString().split("T")[0])
-                    : undefined
-                }
-                slotProps={{
-                  textField: {
-                    helperText: "El formato debe ser DD/MM/YYYY",
-                  },
-                }}
-                views={["day", "month", "year"]}
+                fullWidth
+                label="Teléfono"
+                id="test"
+                type="tel"
+                value={userData?.telefono}
               />
-             )}
-              
-                <FormControl fullWidth>
-                  <InputLabel id="select-label">Es Deudor</InputLabel>
-                  <Select
-                    autoComplete="no"
-                    disabled={!!userData}
-                    labelId="select-label"
-                    id="simple-select"
-                    // value={userData?.tipo || "Cliente Particular"}
-                    value={userData?.tipo || formData.tipo}
-                    label="Seleccionar"
-                    onChange={handleChange}
-                    name={"tipo"}
-                  >
-                    <MenuItem value={"cliente particular"}>Si</MenuItem>
-                    <MenuItem value={"cliente empresa"}>No</MenuItem>
-                  </Select>
-                </FormControl>
+              {formType === "cliente" && (
+                <DatePicker
+                  onChange={handleDateChange}
+                  disabled={!!userData}
+                  label="Fecha Nacimiento"
+                  value={
+                    userData
+                      ? dayjs(userData.fecha?.toISOString().split("T")[0])
+                      : undefined
+                  }
+                  slotProps={{
+                    textField: {
+                      helperText: "El formato debe ser DD/MM/YYYY",
+                    },
+                  }}
+                  views={["day", "month", "year"]}
+                />
+              )}
+
+              <FormControl fullWidth>
+                <InputLabel id="select-label">Es Deudor</InputLabel>
+                <Select
+                  autoComplete="no"
+                  disabled={!!userData}
+                  labelId="select-label"
+                  id="simple-select"
+                  // value={userData?.tipo || "Cliente Particular"}
+                  value={userData?.debe || formData.debe || "si"}
+                  label="Seleccionar"
+                  onChange={handleChange}
+                  name={"debe"}
+                >
+                  <MenuItem value={"si"}>Si</MenuItem>
+                  <MenuItem value={"no"}>No</MenuItem>
+                </Select>
+              </FormControl>
 
               {/* {["ventas", "administracion", "gerencial"].includes(
                 user.area
@@ -262,13 +385,7 @@ const UsuarioDetailsDrawer: FC<{
                   sx={{ width: "40%" }}
                   startIcon={userData ? <Edit /> : <Add />}
                   onClick={() => {
-                    handleOnClose();
-                    if (!userData) {
-                      alert(`Nuevo ${formType} cargado.`);
-                    } else {
-                      alert(`Nuevo ${formType} editado.`);
-                    }
-                    onClose();
+                    handleSave();
                   }}
                 >
                   {userData ? "Editar" : "Crear"}
@@ -396,13 +513,43 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
   const [drawerDetails, setDrawerDetails] = useState<UserRow | undefined>(
     undefined
   );
-  const [formType, setFormType] = useState<"cliente" | "proveedor">("cliente");
-  const [userRows, setUserRows] = useState<UserRow[]>(DEFAULT_USERS_ROWS);
+  const [formType, setFormType] = useState<"cliente" | "empresa">("cliente");
+  const [userRows, setUserRows] = useState<UserRow[]>([]);
 
   const { user } = useContext(UserContext);
 
+  // console.log({
+  //   drawerDetails,
+  //   formType,
+  // });
+
+  useEffect(() => {
+    // console.log("first run");
+    const actualClients = JSON.parse(
+      localStorage.getItem("users-clientes") || "[]"
+    );
+    if (actualClients.length) {
+      const fixedClients = actualClients.map((client: any) => {
+        return {
+          ...client,
+          fecha: new Date(client.fecha),
+        };
+      });
+      setUserRows(fixedClients);
+    }
+  }, []);
+
+  useEffect(() => {
+    // console.log("userRows", userRows);
+    localStorage.setItem("users-clientes", JSON.stringify(userRows));
+  }, [drawerDetails, userRows]);
+
+  // const handleSaveToLocalStorage = useCallback(() => {
+  //   localStorage.setItem("users-clientes", JSON.stringify(userRows));
+  // }, [userRows]);
+
   const handleNewUser = (newUser: UserRow) => {
-    const latestId = userRows[userRows.length - 1].id;
+    const latestId = userRows?.[userRows.length - 1]?.id || "0";
     const newId = parseInt(latestId) + 1;
     setUserRows((prev) => [
       ...prev,
@@ -433,7 +580,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
   };
 
   const handleNewProveedor = () => {
-    setFormType("proveedor");
+    setFormType("empresa");
     setIsDrawerOpen((prev) => !prev);
   };
 
@@ -471,6 +618,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
         }}
         userData={drawerDetails}
         formType={formType}
+        cuits={userRows.map((row) => row.cuit)}
       />
       <CrearReporteDrawer
         isOpen={isReporteDrawerOpen}
@@ -480,7 +628,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
       {/* Lado izquierdo */}
       <div
         className="div1"
-        style={{ border: "2px transparent solid", gridArea: "1 / 1 / 4 / 2"}}
+        style={{ border: "2px transparent solid", gridArea: "1 / 1 / 4 / 2" }}
       >
         {/* Select - Menú desplegable */}
         <Box
@@ -540,7 +688,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
                     handleNewCliente();
                   }}
                 >
-                  Nuevo cliente Paricular
+                  Nuevo cliente Particular
                 </Button>
               </>
             )}
@@ -587,10 +735,10 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
         <Box sx={{ padding: 3 }}>
           <TablaResultados
             openDrawerDetails={(details) => {
-              if (details.tipo.toLocaleLowerCase().includes("cliente")) {
+              if (details.tipo.toLocaleLowerCase().includes("particular")) {
                 setFormType("cliente");
               } else {
-                setFormType("proveedor");
+                setFormType("empresa");
               }
               handleToggleDrawer(details, true);
             }}
@@ -608,7 +756,7 @@ const UsuariosHomePage: NextPageWithLayout<{}> = () => {
   return (
     <>
       <Head>
-        <title>Gestión de Clientes y Proveedores</title>
+        <title>Gestión de Clientes</title>
       </Head>
       {/* Home Page */}
       <div
@@ -634,7 +782,7 @@ const UsuariosHomePage: NextPageWithLayout<{}> = () => {
             color={"white"}
             sx={{ textDecoration: "underline", fontWeight: "bold" }}
           >
-            Gestión de Clientes y Proveedores
+            Gestión de Clientes
           </Typography>
         </div>
         {/* Contenido */}
