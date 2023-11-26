@@ -193,6 +193,7 @@ const TablaResultados: FC<Props> = ({
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
+            <TableCell align="center">Cuit</TableCell>
             <TableCell align="center">Nombre</TableCell>
             <TableCell align="center">Tipo</TableCell>
             <TableCell align="center">Email</TableCell>
@@ -214,6 +215,7 @@ const TablaResultados: FC<Props> = ({
               <TableCell id="idRow" component="th" scope="row">
                 {row.id}
               </TableCell>
+              <TableCell align="center">{row.cuit}</TableCell>
               <TableCell align="center">{row.nombre}</TableCell>
               <TableCell align="center">{row.tipo}</TableCell>
               <TableCell align="center">{row.email}</TableCell>
