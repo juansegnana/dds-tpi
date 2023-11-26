@@ -92,7 +92,7 @@ const UsuarioDetailsDrawer: FC<{
 
   return (
     <Drawer anchor={"right"} open={isOpen} onClose={() => onClose()}>
-      <Box style={{ width: "450px", padding: 8 }}>
+      <Box style={{ width: "500px", padding: 8 }}>
         <Box sx={{ height: "100%" }}>
           <Box
             display="flex"
@@ -108,7 +108,7 @@ const UsuarioDetailsDrawer: FC<{
               height: "100%",
             }}
           >
-            <Box display="flex" sx={{ gap: 4, alignItems: "center" }}>
+            <Box display="flex" sx={{ gap: 1, alignItems: "center" }}>
               <Button onClick={() => onClose()} sx={{ marginLeft: -10 }}>
                 <KeyboardBackspaceIcon />
               </Button>
@@ -121,16 +121,26 @@ const UsuarioDetailsDrawer: FC<{
                 }}
               >
                 {`${userData ? "Editar" : "Nuevo"} ${
-                  formType === "cliente" ? "Cliente" : "Proveedor"
+                  formType === "cliente" ? "Cliente Particular" : "Cliente Empresa"
                 }`}
               </Typography>
             </Box>
             <Box
               display="flex"
               flexDirection="column"
-              sx={{ gap: 4, width: "100%" }}
+              sx={{ gap: 3, width: "100%" }}
             >
-              <Box sx={{ display: "flex", gap: 2 }}>
+              <TextField
+                name={"cuit"}
+                onChange={handleChange}
+                autoComplete="no"
+                disabled={!!userData}
+                fullWidth
+                label="DNI/CUIT"
+                id="test"
+                type="text"
+                value={userData?.cuit}
+              />
                 <TextField
                   name={"nombre"}
                   onChange={handleChange}
@@ -142,18 +152,18 @@ const UsuarioDetailsDrawer: FC<{
                   type="text"
                   value={userData?.nombre}
                 />
-                <TextField
+
+              <TextField
                   name={"apellido"}
                   onChange={handleChange}
                   autoComplete="no"
                   disabled={!!userData}
                   fullWidth
-                  label="Apellido (opcional)"
+                  label="Apellido"
                   id="test"
                   type="text"
                   value={userData?.apellido}
                 />
-              </Box>
               <TextField
                 name={"email"}
                 onChange={handleChange}
@@ -176,6 +186,7 @@ const UsuarioDetailsDrawer: FC<{
                 type="text"
                 value={userData?.direccion}
               />
+              
               <DatePicker
                 onChange={handleDateChange}
                 disabled={!!userData}
@@ -193,21 +204,9 @@ const UsuarioDetailsDrawer: FC<{
                 views={["day", "month", "year"]}
               />
 
-              <TextField
-                name={"cuit"}
-                onChange={handleChange}
-                autoComplete="no"
-                disabled={!!userData}
-                fullWidth
-                label="DNI/CUIT"
-                id="test"
-                type="text"
-                value={userData?.cuit}
-              />
-
-              {formType === "cliente" && (
+              
                 <FormControl fullWidth>
-                  <InputLabel id="select-label">Seleccionar</InputLabel>
+                  <InputLabel id="select-label">Es Deudor</InputLabel>
                   <Select
                     autoComplete="no"
                     disabled={!!userData}
@@ -219,13 +218,12 @@ const UsuarioDetailsDrawer: FC<{
                     onChange={handleChange}
                     name={"tipo"}
                   >
-                    <MenuItem value={"cliente particular"}>Particular</MenuItem>
-                    <MenuItem value={"cliente empresa"}>Empresa</MenuItem>
+                    <MenuItem value={"cliente particular"}>Si</MenuItem>
+                    <MenuItem value={"cliente empresa"}>No</MenuItem>
                   </Select>
                 </FormControl>
-              )}
 
-              {["ventas", "administracion", "gerencial"].includes(
+              {/* {["ventas", "administracion", "gerencial"].includes(
                 user.area
               ) && (
                 <TextField
@@ -237,7 +235,7 @@ const UsuarioDetailsDrawer: FC<{
                   type="number"
                   value={userData?.debe}
                 />
-              )}
+              )} */}
             </Box>
 
             {user.area !== "gerencial" && (
@@ -449,7 +447,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
         width: "100%",
         height: "100%",
         display: "grid",
-        gridTemplateColumns: "500px repeat(2, 1fr)",
+        gridTemplateColumns: "700px repeat(2, 1fr)",
         // 100 px en la primer fila
         gridTemplateRows: "100px repeat(2, 1fr)",
         gridColumnGap: "8px",
@@ -482,7 +480,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
       {/* Lado izquierdo */}
       <div
         className="div1"
-        style={{ border: "2px transparent solid", gridArea: "1 / 1 / 4 / 2" }}
+        style={{ border: "2px transparent solid", gridArea: "1 / 1 / 4 / 2"}}
       >
         {/* Select - Menú desplegable */}
         <Box
@@ -516,7 +514,8 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
           >
             <Button
               startIcon={<Feed />}
-              variant="outlined"
+              variant="contained"
+              color="secondary"
               onClick={() => {
                 handleToggleDrawerInforme();
               }}
@@ -527,12 +526,12 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
               <>
                 <Button
                   startIcon={<Add />}
-                  variant="outlined"
+                  variant="contained"
                   onClick={() => {
                     handleNewProveedor();
                   }}
                 >
-                  Nuevo proveedor
+                  Nuevo Cliente Empresa
                 </Button>
                 <Button
                   startIcon={<Add />}
@@ -541,7 +540,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
                     handleNewCliente();
                   }}
                 >
-                  Nuevo cliente
+                  Nuevo cliente Paricular
                 </Button>
               </>
             )}
@@ -585,7 +584,7 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
         className="div3"
         style={{ border: "2px transparent solid", gridArea: "2 / 2 / 4 / 4" }}
       >
-        <Box sx={{ padding: 2 }}>
+        <Box sx={{ padding: 3 }}>
           <TablaResultados
             openDrawerDetails={(details) => {
               if (details.tipo.toLocaleLowerCase().includes("cliente")) {

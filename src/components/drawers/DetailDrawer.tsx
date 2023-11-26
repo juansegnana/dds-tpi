@@ -237,7 +237,7 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
                 justifyContent="space-around"
                 sx={{ width: "100%" }}
               >
-                {itemData && shouldEnableDelete && (
+                {/* {itemData && shouldEnableDelete && (
                   <Button
                     variant="contained"
                     color="error"
@@ -249,10 +249,10 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
                   >
                     Borrar
                   </Button>
-                )}
+                )} */}
                 <Button
                   variant="contained"
-                  sx={{ width: "40%" }}
+                  sx={{ width: "50%" }}
                   startIcon={itemData ? <Edit /> : <Add />}
                   onClick={() => {
                     if (!itemData) {
@@ -260,7 +260,7 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
                     }
                   }}
                 >
-                  {itemData ? "Editar" : "Crear"}
+                  {itemData ? "Modificar Stock" : "Crear"}
                 </Button>
               </Box>
             )}
