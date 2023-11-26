@@ -60,7 +60,7 @@ interface AreaButton {
 
 const mainPageButtonsArr: AreaButton[] = [
   {
-    label: "Gestión de Clientes y Proveedores",
+    label: "Gestión de Clientes",
     roleNeeded: ["administracion", "ventas"],
     href: "/clientes",
     type: "gestion",

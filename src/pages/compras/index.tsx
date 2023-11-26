@@ -429,7 +429,7 @@ const UsuariosHomePage: NextPageWithLayout<{}> = ({}) => {
   return (
     <>
       <Head>
-        <title>Gestión de Clientes y Proveedores</title>
+        <title>Gestión de Clientes</title>
       </Head>
       {/* Home Page */}
       <div

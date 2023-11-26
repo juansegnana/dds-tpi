@@ -17,6 +17,7 @@ export interface UserRow {
   direccion: string;
   cuit: string;
   debe: number;
+  telefono: number;
 }
 
 export function createData({
@@ -29,8 +30,20 @@ export function createData({
   apellido,
   cuit,
   debe,
+  telefono,
 }: UserRow) {
-  return { id, nombre, tipo, email, fecha, direccion, apellido, cuit, debe };
+  return {
+    id,
+    nombre,
+    tipo,
+    email,
+    fecha,
+    direccion,
+    apellido,
+    cuit,
+    debe,
+    telefono,
+  };
 }
 
 export const DEFAULT_USERS_ROWS: UserRow[] = [
@@ -44,6 +57,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
     debe: 2000,
+    telefono: 123456789,
   }),
   createData({
     id: "2",
@@ -55,6 +69,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
     debe: 0,
+    telefono: 123456789,
   }),
   createData({
     id: "3",
@@ -66,6 +81,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
     debe: 100,
+    telefono: 123456789,
   }),
   createData({
     id: "4",
@@ -77,6 +93,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
     debe: 0,
+    telefono: 123456789,
   }),
   createData({
     id: "5",
@@ -88,6 +105,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
     debe: 5000,
+    telefono: 123456789,
   }),
   createData({
     id: "6",
@@ -99,6 +117,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
     debe: 9000,
+    telefono: 123456789,
   }),
   createData({
     id: "7",
@@ -110,6 +129,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
     debe: 0,
+    telefono: 123456789,
   }),
   createData({
     id: "8",
@@ -121,6 +141,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
     debe: 0,
+    telefono: 123456789,
   }),
   createData({
     id: "9",
@@ -132,6 +153,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
     debe: 0,
+    telefono: 123456789,
   }),
   createData({
     id: "10",
@@ -143,6 +165,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
     debe: 9100,
+    telefono: 123456789,
   }),
 ];
 

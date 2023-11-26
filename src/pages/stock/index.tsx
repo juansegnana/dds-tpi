@@ -143,7 +143,7 @@ const tableInfo: TableInfo = {
 };
 
 const drawerInfo: DrawerInfo = {
-  mainTitle: "Gestionar Ítem",
+  mainTitle: "Gestionar Materia Prima",
   onCloseLabel: "Desea borrar el item?",
   onCreateLabel: "Nuevo item cargado en el stock",
   formValues: [
