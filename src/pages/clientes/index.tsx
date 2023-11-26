@@ -186,7 +186,7 @@ const UsuarioDetailsDrawer: FC<{
                 type="text"
                 value={userData?.direccion}
               />
-              
+             {formType === "cliente" && ( 
               <DatePicker
                 onChange={handleDateChange}
                 disabled={!!userData}
@@ -203,7 +203,7 @@ const UsuarioDetailsDrawer: FC<{
                 }}
                 views={["day", "month", "year"]}
               />
-
+             )}
               
                 <FormControl fullWidth>
                   <InputLabel id="select-label">Es Deudor</InputLabel>
