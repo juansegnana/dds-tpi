@@ -34,6 +34,7 @@ export interface DrawerInfo {
   markValues?: SelectValue[];
   shouldEnableEdit?: boolean;
   shouldEnableDelete?: boolean;
+  shouldEnableModif?: boolean;
 }
 
 /**
@@ -64,6 +65,7 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
     mainTitle,
     shouldEnableEdit = true,
     shouldEnableDelete = true,
+    shouldEnableModif = false,
   } = drawerInfo;
 
   const getInputComponent = (formValue: FormValue) => {
@@ -262,6 +264,24 @@ const DetailDrawer: FC<DetailDrawerProps> = ({
                 >
                   {itemData ? "Modificar Stock" : "Crear"}
                 </Button>
+              </Box>
+            )}
+            {shouldEnableModif && (
+              <Box
+                display="flex"
+                justifyContent="space-around"
+                sx={{ width: "100%" }}
+              >
+                  <Button
+                    variant="contained"
+                    startIcon={<Edit />}
+                    onClick={() => {
+                      if (!confirm(onCloseLabel)) return;
+                      onClose();
+                    }}
+                  >
+                    editar
+                  </Button>
               </Box>
             )}
           </Box>

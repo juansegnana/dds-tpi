@@ -36,6 +36,8 @@ const drawerInfo: DrawerInfo = {
   mainTitle: "Detalle del Pedido",
   onCloseLabel: "Desea borrar el item?",
   onCreateLabel: "Nuevo pedido guardado",
+  shouldEnableModif:true,
+  shouldEnableEdit:false,
   formValues: [
     {
       type: "date",

@@ -183,7 +183,7 @@ const UsuarioDetailsDrawer: FC<{
       alert("Ya existe un cliente con ese CUIT");
       return;
     }
-    if (!checkIsEmpty()) {
+    if (!checkIsEmpty() ){
       alert("Por favor, complete todos los campos");
       return;
     }
