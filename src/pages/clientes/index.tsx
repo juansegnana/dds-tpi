@@ -234,7 +234,7 @@ const UsuarioDetailsDrawer: FC<{
                 autoComplete="no"
                 disabled={!!userData}
                 fullWidth
-                label={formType === "cliente" ? "DNI/CUIT" : "CUIT"}
+                label={formType === "cliente" ? "* DNI/CUIT" : "* CUIT"}
                 id="test"
                 type="text"
                 value={userData?.cuit || formData.cuit}
@@ -246,7 +246,7 @@ const UsuarioDetailsDrawer: FC<{
                 autoComplete="no"
                 fullWidth
                 label={
-                  formType === "cliente" ? "Nombre" : "Nombre de la empresa"
+                  formType === "cliente" ? "* Nombre" : "* Nombre de la empresa"
                 }
                 id="test"
                 type="text"
@@ -260,7 +260,7 @@ const UsuarioDetailsDrawer: FC<{
                   autoComplete="no"
                   disabled={!!userData}
                   fullWidth
-                  label="Apellido"
+                  label="* Apellido"
                   id="test"
                   type="text"
                   value={userData?.apellido || formData?.apellido}
@@ -272,7 +272,7 @@ const UsuarioDetailsDrawer: FC<{
                 autoComplete="no"
                 disabled={!!userData}
                 fullWidth
-                label="Email"
+                label="* Email"
                 id="test"
                 type="text"
                 value={userData?.email || formData.email}
@@ -283,7 +283,7 @@ const UsuarioDetailsDrawer: FC<{
                 autoComplete="no"
                 disabled={!!userData}
                 fullWidth
-                label="Dirección"
+                label="* Dirección"
                 id="test"
                 type="text"
                 value={userData?.direccion || formData.direccion}
@@ -294,7 +294,7 @@ const UsuarioDetailsDrawer: FC<{
                 autoComplete="no"
                 disabled={!!userData}
                 fullWidth
-                label="Teléfono"
+                label="* Teléfono"
                 id="test"
                 type="tel"
                 value={userData?.telefono || formData.telefono || ""}
@@ -303,7 +303,7 @@ const UsuarioDetailsDrawer: FC<{
                 <DatePicker
                   onChange={handleDateChange}
                   disabled={!!userData}
-                  label="Fecha Nacimiento"
+                  label="* Fecha Nacimiento"
                   value={
                     userData || formData?.fecha
                       ? dayjs(
@@ -321,7 +321,15 @@ const UsuarioDetailsDrawer: FC<{
                   views={["day", "month", "year"]}
                 />
               )}
-
+           {/* {user.area !== "gerencial" && (   
+            <Box
+              display="flex"
+              justifyContent="center"
+            >
+            <Box
+            textAlign="center"
+            width="70%"
+            >
               <FormControl fullWidth>
                 <InputLabel id="select-label">Es Deudor</InputLabel>
                 <Select
@@ -330,16 +338,18 @@ const UsuarioDetailsDrawer: FC<{
                   labelId="select-label"
                   id="simple-select"
                   // value={userData?.tipo || "Cliente Particular"}
-                  value={userData?.debe || formData.debe || "si"}
+                  value={userData?.debe || formData.debe || "No"}
                   label="Seleccionar"
                   onChange={handleChange}
                   name={"debe"}
                 >
-                  <MenuItem value={"si"}>Si</MenuItem>
                   <MenuItem value={"no"}>No</MenuItem>
+                  <MenuItem value={"si"}>Si</MenuItem>
                 </Select>
               </FormControl>
-
+            </Box>
+            </Box>
+            )} */}
               {/* {["ventas", "administracion", "gerencial"].includes(
                 user.area
               ) && (
