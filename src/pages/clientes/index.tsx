@@ -98,38 +98,36 @@ const UsuarioDetailsDrawer: FC<{
     });
   }, [formData, formType, onClose]);
 
-  // TODO: arreglar validación no funca
   const handleChange = useCallback(
     (event: any) => {
       const { name, value } = event.target;
 
-      // console.log({
-      //   name,
-      //   value,
-      // });
+      const regexOnlyLetters = /^[a-zA-Z\s]*$/;
+      let canSave = true;
 
-      // const regexNoNumbers = /[^0-9]/g;
-      // let canSave = true;
+      switch (name) {
+        case "nombre":
+        case "apellido":
+          if (formType === "cliente" && !regexOnlyLetters.test(value)) {
+            canSave = false;
+          }
+          break;
+        case "telefono":
+        case "cuit":
+          if (isNaN(value)) {
+            canSave = false;
+          }
+          break;
+      }
 
-      // if (
-      //   formType === "cliente" &&
-      //   name === "nombre" &&
-      //   !regexNoNumbers.test(value)
-      // ) {
-      //   canSave = false;
-      // }
-
-      // console.log({ canSave, value });
-
-      // if (canSave) {
-      // console.log("guarda igual");
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-      // }
+      if (canSave) {
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+      }
     },
-    [formData]
+    [formData, formType]
   );
 
   const handleDateChange = (newValue: any) => {
@@ -239,7 +237,7 @@ const UsuarioDetailsDrawer: FC<{
                 label={formType === "cliente" ? "DNI/CUIT" : "CUIT"}
                 id="test"
                 type="text"
-                value={userData?.cuit}
+                value={userData?.cuit || formData.cuit}
               />
               <TextField
                 name={"nombre"}
@@ -252,7 +250,7 @@ const UsuarioDetailsDrawer: FC<{
                 }
                 id="test"
                 type="text"
-                value={userData?.nombre}
+                value={userData?.nombre || formData.nombre}
               />
 
               {formType === "cliente" && (
@@ -265,7 +263,7 @@ const UsuarioDetailsDrawer: FC<{
                   label="Apellido"
                   id="test"
                   type="text"
-                  value={userData?.apellido}
+                  value={userData?.apellido || formData?.apellido}
                 />
               )}
               <TextField
@@ -277,7 +275,7 @@ const UsuarioDetailsDrawer: FC<{
                 label="Email"
                 id="test"
                 type="text"
-                value={userData?.email}
+                value={userData?.email || formData.email}
               />
               <TextField
                 name={"direccion"}
@@ -288,7 +286,7 @@ const UsuarioDetailsDrawer: FC<{
                 label="Dirección"
                 id="test"
                 type="text"
-                value={userData?.direccion}
+                value={userData?.direccion || formData.direccion}
               />
               <TextField
                 name={"telefono"}
@@ -299,7 +297,7 @@ const UsuarioDetailsDrawer: FC<{
                 label="Teléfono"
                 id="test"
                 type="tel"
-                value={userData?.telefono}
+                value={userData?.telefono || formData.telefono || ""}
               />
               {formType === "cliente" && (
                 <DatePicker
@@ -307,8 +305,12 @@ const UsuarioDetailsDrawer: FC<{
                   disabled={!!userData}
                   label="Fecha Nacimiento"
                   value={
-                    userData
-                      ? dayjs(userData.fecha?.toISOString().split("T")[0])
+                    userData || formData?.fecha
+                      ? dayjs(
+                          (userData?.fecha || formData?.fecha)
+                            ?.toISOString()
+                            .split("T")[0]
+                        )
                       : undefined
                   }
                   slotProps={{
