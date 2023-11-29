@@ -68,7 +68,7 @@ const FORM_DEFAULT = {
   direccion: "",
   apellido: "",
   cuit: "",
-  debe: 0,
+  debe: "no" as "no" | "si",
   telefono: 0,
 };
 
@@ -85,11 +85,7 @@ const UsuarioDetailsDrawer: FC<{
   });
   const { user } = useContext(UserContext);
 
-  // console.log({
-  //   formType1: formType,
-  // });
   const handleOnClose = useCallback(() => {
-    // console.log("on close formType", formType);
     const rowObject = createData(formData);
     setFormData({
       ...FORM_DEFAULT,
@@ -101,10 +97,6 @@ const UsuarioDetailsDrawer: FC<{
       tipo: formType === "cliente" ? "cliente particular" : "cliente empresa",
     });
   }, [formData, formType, onClose]);
-
-  // console.log({
-  //   nameData: formData?.nombre,
-  // });
 
   // TODO: arreglar validación no funca
   const handleChange = useCallback(
@@ -183,7 +175,7 @@ const UsuarioDetailsDrawer: FC<{
       alert("Ya existe un cliente con ese CUIT");
       return;
     }
-    if (!checkIsEmpty() ){
+    if (!checkIsEmpty()) {
       alert("Por favor, complete todos los campos");
       return;
     }
@@ -518,29 +510,26 @@ const BusquedaContent: FC<ReporteProps> = ({ selectValues }) => {
 
   const { user } = useContext(UserContext);
 
-  // console.log({
-  //   drawerDetails,
-  //   formType,
-  // });
-
   useEffect(() => {
-    // console.log("first run");
-    const actualClients = JSON.parse(
-      localStorage.getItem("users-clientes") || "[]"
-    );
-    if (actualClients.length) {
-      const fixedClients = actualClients.map((client: any) => {
-        return {
-          ...client,
-          fecha: new Date(client.fecha),
-        };
-      });
-      setUserRows(fixedClients);
+    if (window !== undefined) {
+      const actualClients = JSON.parse(
+        localStorage.getItem("users-clientes") || "[]"
+      );
+      if (actualClients.length) {
+        const fixedClients = actualClients.map((client: any) => {
+          return {
+            ...client,
+            fecha: new Date(client.fecha),
+          };
+        });
+        setUserRows(() => [...fixedClients]);
+      } else {
+        setUserRows(DEFAULT_USERS_ROWS);
+      }
     }
   }, []);
 
   useEffect(() => {
-    // console.log("userRows", userRows);
     localStorage.setItem("users-clientes", JSON.stringify(userRows));
   }, [drawerDetails, userRows]);
 

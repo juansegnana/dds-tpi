@@ -16,7 +16,7 @@ export interface UserRow {
   fecha: Date;
   direccion: string;
   cuit: string;
-  debe: number;
+  debe: "si" | "no";
   telefono: number;
 }
 
@@ -56,7 +56,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
-    debe: 2000,
+    debe: "si",
     telefono: 123456789,
   }),
   createData({
@@ -68,7 +68,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
-    debe: 0,
+    debe: "no",
     telefono: 123456789,
   }),
   createData({
@@ -80,7 +80,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
-    debe: 100,
+    debe: "no",
     telefono: 123456789,
   }),
   createData({
@@ -92,7 +92,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
-    debe: 0,
+    debe: "no",
     telefono: 123456789,
   }),
   createData({
@@ -104,7 +104,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
-    debe: 5000,
+    debe: "si",
     telefono: 123456789,
   }),
   createData({
@@ -116,7 +116,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
-    debe: 9000,
+    debe: "si",
     telefono: 123456789,
   }),
   createData({
@@ -128,7 +128,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
-    debe: 0,
+    debe: "no",
     telefono: 123456789,
   }),
   createData({
@@ -140,7 +140,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
-    debe: 0,
+    debe: "no",
     telefono: 123456789,
   }),
   createData({
@@ -152,7 +152,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
-    debe: 0,
+    debe: "no",
     telefono: 123456789,
   }),
   createData({
@@ -164,7 +164,7 @@ export const DEFAULT_USERS_ROWS: UserRow[] = [
     fecha: new Date(),
     direccion: "Av. 25 de Mayo",
     cuit: "20-12345678-9",
-    debe: 9100,
+    debe: "si",
     telefono: 123456789,
   }),
 ];
